@@ -1,11 +1,11 @@
-# dapp-OWAAT
+# DApp-OWAAT
 
 ## Introduction
-This is a DApp that demonstrates a simple implementation using the game of OWAAT (One Word At A Time).
+This is a decentralized application (DApp) that demonstrates a simple implementation using the game of OWAAT (One Word At A Time).
 
 ## Running this DApp
 * Clone this repository to your workstation
-* Download and execute [Ganauche](https://www.trufflesuite.com/ganache), to run a local blockchain
+* Download and execute [Ganauche](https://www.trufflesuite.com/ganache), to run a local blockchain (choose Quickstart network option in GUI)
 * Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable), to run React client
 * `cd client`
 * `yarn install`
