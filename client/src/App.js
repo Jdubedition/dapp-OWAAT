@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import TextField from '@mui/material/TextField';
+
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import RandomNumberGeneratorContract from "./contracts/RandomNumberGenerator.json";
 import getWeb3 from "./getWeb3";
@@ -6,7 +8,16 @@ import getWeb3 from "./getWeb3";
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: 0, randomValue: 0, web3: null, accounts: null, contract: null, randomNumberGeneratorContract: null };
+  state = {
+    storageValue: 0,
+    randomValue: 0,
+    web3: null,
+    accounts: null,
+    contract: null,
+    randomNumberGeneratorContract: null,
+    textFieldValue: "",
+    phrase: "",
+  };
 
   componentDidMount = async () => {
     try {
@@ -58,6 +69,25 @@ class App extends Component {
     this.setState({ storageValue: response, randomValue: response2 });
   };
 
+  addWord = () => {
+    this.setState({ phrase: this.state.phrase + " " + this.state.textFieldValue });
+    this.setState({ textFieldValue: "" });
+  }
+
+  keyPress(event, thisLink) {
+    if (event.key === "Enter") {
+      thisLink.addWord();
+    } else if (event.key === " ") {
+      event.preventDefault();
+    }
+  }
+
+  _handleTextFieldChange = (event) => {
+    this.setState({
+      textFieldValue: event.target.value
+    });
+  }
+
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -78,6 +108,19 @@ class App extends Component {
         <p>
           Random number generated: {this.state.randomValue}
         </p>
+        <p>
+          Phrase: {this.state.phrase}
+        </p>
+        <div>
+          <TextField
+            id="new-word-textfield"
+            label="New Word"
+            variant="outlined"
+            value={this.state.textFieldValue}
+            onChange={this._handleTextFieldChange}
+            onKeyDown={(event) => this.keyPress(event, this)}
+          />
+        </div>
       </div>
     );
   }
