@@ -9,8 +9,6 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import RandomNumberGeneratorContract from "./contracts/RandomNumberGenerator.json";
 import Phrase from "./contracts/Phrase.json";
 import getWeb3 from "./getWeb3";
 
@@ -19,12 +17,8 @@ import "./App.css";
 class App extends Component {
   state = {
     theme: null,
-    storageValue: 0,
-    randomValue: 0,
     web3: null,
     accounts: null,
-    contract: null,
-    randomNumberGeneratorContract: null,
     phraseContract: null,
     textFieldValue: "",
     phrase: "",
@@ -32,6 +26,7 @@ class App extends Component {
 
   componentDidMount = async () => {
     try {
+      // Set MaterialUI theme
       const darkTheme = createTheme({
         palette: {
           mode: 'dark',
@@ -41,41 +36,24 @@ class App extends Component {
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
 
-      // Use web3 to get the user's accounts.
+      // Use web3 to get the user's accounts and contract instance from network.
       const accounts = await web3.eth.getAccounts();
-
       const networkId = await web3.eth.net.getId();
-      // Get the contract instance.
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address,
-      );
-
-      // Get RandomNumberGenerator contract instance
-      const deployedNetwork2 = RandomNumberGeneratorContract.networks[networkId];
-      const instance2 = new web3.eth.Contract(
-        RandomNumberGeneratorContract.abi,
-        deployedNetwork2 && deployedNetwork2.address,
-      );
 
       // Get Phrase contract instance
-      const deployedNetwork3 = Phrase.networks[networkId];
-      const instance3 = new web3.eth.Contract(
+      const phraseNetwork = Phrase.networks[networkId];
+      const phraseInstance = new web3.eth.Contract(
         Phrase.abi,
-        deployedNetwork3 && deployedNetwork3.address,
+        phraseNetwork && phraseNetwork.address,
       );
 
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
+      // Set web3, accounts, and contract to the state
       this.setState({
         theme: darkTheme,
         web3,
         accounts,
-        contract: instance,
-        randomNumberGeneratorContract: instance2,
-        phraseContract: instance3
-      }, this.runExample);
+        phraseContract: phraseInstance,
+      }, this.initialContractState);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -85,27 +63,20 @@ class App extends Component {
     }
   };
 
-  runExample = async () => {
-    const { accounts, contract, randomNumberGeneratorContract, phraseContract } = this.state;
+  initialContractState = async () => {
+    const phraseResponse = await this.state.phraseContract.methods.getPhrase().call();
 
-    // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
-    const response2 = await randomNumberGeneratorContract.methods.getNumber().call();
-
-    const response3 = await phraseContract.methods.getPhrase().call();
-
-    // Update state with the result.
-    this.setState({ storageValue: response, randomValue: response2, phrase: response3 });
+    // Update state with the result from contract
+    this.setState({ phrase: phraseResponse });
   };
 
   addWord = async () => {
     const { accounts, phraseContract } = this.state;
+
+    // Submit transaction to add new word
     await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[0] });
-    // this.setState({ phrase: this.state.phrase + " " + this.state.textFieldValue });
+
+    // Update state with the result from contract
     const response = await phraseContract.methods.getPhrase().call();
     this.setState({ phrase: response });
     this.setState({ textFieldValue: "" });
@@ -127,7 +98,7 @@ class App extends Component {
 
   render() {
     if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
+      return <div>Loading Web3, accounts, and contracts...</div>;
     }
     return (
       <ThemeProvider theme={this.state.theme}>
