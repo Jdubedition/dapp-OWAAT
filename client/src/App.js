@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import RandomNumberGeneratorContract from "./contracts/RandomNumberGenerator.json";
+import Phrase from "./contracts/Phrase.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
@@ -15,6 +16,7 @@ class App extends Component {
     accounts: null,
     contract: null,
     randomNumberGeneratorContract: null,
+    phraseContract: null,
     textFieldValue: "",
     phrase: "",
   };
@@ -42,9 +44,22 @@ class App extends Component {
         deployedNetwork2 && deployedNetwork2.address,
       );
 
+      // Get Phrase contract instance
+      const deployedNetwork3 = Phrase.networks[networkId];
+      const instance3 = new web3.eth.Contract(
+        Phrase.abi,
+        deployedNetwork3 && deployedNetwork3.address,
+      );
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance, randomNumberGeneratorContract: instance2 }, this.runExample);
+      this.setState({
+        web3,
+        accounts,
+        contract: instance,
+        randomNumberGeneratorContract: instance2,
+        phraseContract: instance3
+      }, this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -55,7 +70,7 @@ class App extends Component {
   };
 
   runExample = async () => {
-    const { accounts, contract } = this.state;
+    const { accounts, contract, randomNumberGeneratorContract, phraseContract } = this.state;
 
     // Stores a given value, 5 by default.
     await contract.methods.set(5).send({ from: accounts[0] });
@@ -63,20 +78,26 @@ class App extends Component {
     // Get the value from the contract to prove it worked.
     const response = await contract.methods.get().call();
 
-    const response2 = await this.state.randomNumberGeneratorContract.methods.getNumber().call();
+    const response2 = await randomNumberGeneratorContract.methods.getNumber().call();
+
+    const response3 = await phraseContract.methods.getPhrase().call();
 
     // Update state with the result.
-    this.setState({ storageValue: response, randomValue: response2 });
+    this.setState({ storageValue: response, randomValue: response2, phrase: response3 });
   };
 
-  addWord = () => {
-    this.setState({ phrase: this.state.phrase + " " + this.state.textFieldValue });
+  addWord = async () => {
+    const { accounts, phraseContract } = this.state;
+    await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[0] });
+    // this.setState({ phrase: this.state.phrase + " " + this.state.textFieldValue });
+    const response = await phraseContract.methods.getPhrase().call();
+    this.setState({ phrase: response });
     this.setState({ textFieldValue: "" });
   }
 
-  keyPress(event, thisLink) {
+  keyPress = async (event, thisLink) => {
     if (event.key === "Enter") {
-      thisLink.addWord();
+      await thisLink.addWord();
     } else if (event.key === " ") {
       event.preventDefault();
     }
