@@ -39,3 +39,7 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * Run `truffle test` to make sure everything is working as expected
 * Compile and Deploy contracts as using `truffle migrate`
 * Import contract into ./client/src/App.js (or other JS file in client/src)
+
+## Recommended reading
+* [Ethereum](https://ethereum.org/en/developers/docs/)
+* [Truffle](https://www.trufflesuite.com/docs/truffle/overview)
