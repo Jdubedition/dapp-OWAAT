@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import TextField from '@mui/material/TextField';
+import {
+  TextField,
+  Container,
+  Paper,
+  Box,
+  Typography,
+} from "@mui/material";
 
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import RandomNumberGeneratorContract from "./contracts/RandomNumberGenerator.json";
@@ -114,25 +120,19 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <h1>Good to Go!</h1>
-        <p>Your Truffle Box is installed and ready.</p>
-        <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
-        </p>
-        <p>
-          Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-        <div>The stored value is: {this.state.storageValue}</div>
-        <p>
-          Random number generated: {this.state.randomValue}
-        </p>
-        <p>
-          Phrase: {this.state.phrase}
-        </p>
-        <div>
+      <Container maxWidth="md">
+        <Typography variant="h2" component="div" gutterBottom>
+          DApp One Word At A Time
+        </Typography>
+        <Box sx={{ my: 4 }}>
+          <Paper elevation={3} xs={9} sx={{ p: 5 }} >
+            <Typography variant="h5" component="div" gutterBottom>
+              Phrase:
+            </Typography>
+            {this.state.phrase}
+          </Paper>
+        </Box>
+        <Box sx={{ my: 4 }}>
           <TextField
             id="new-word-textfield"
             label="New Word"
@@ -141,8 +141,8 @@ class App extends Component {
             onChange={this._handleTextFieldChange}
             onKeyDown={(event) => this.keyPress(event, this)}
           />
-        </div>
-      </div>
+        </Box>
+      </Container>
     );
   }
 }
