@@ -15,6 +15,7 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 ## Steps used to create this DApp
 * Install [Truffle](https://www.trufflesuite.com/docs/truffle/overview) CLI with `npm install -g truffle`
 * Create a Truffle React application `truffle unbox react`
+* Change port setting to `7545` (to use Ganache) in `truffle-config.js` and getWeb3.js
 * Add Material-UI to the project:
     * `cd client`
     * Update dependencies for good measure: `yarn upgrade-interactive --latest`
