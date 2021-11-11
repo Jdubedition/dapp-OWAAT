@@ -6,6 +6,8 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import RandomNumberGeneratorContract from "./contracts/RandomNumberGenerator.json";
@@ -16,6 +18,7 @@ import "./App.css";
 
 class App extends Component {
   state = {
+    theme: null,
     storageValue: 0,
     randomValue: 0,
     web3: null,
@@ -29,6 +32,12 @@ class App extends Component {
 
   componentDidMount = async () => {
     try {
+      const darkTheme = createTheme({
+        palette: {
+          mode: 'dark',
+        },
+      });
+
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
 
@@ -60,6 +69,7 @@ class App extends Component {
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({
+        theme: darkTheme,
         web3,
         accounts,
         contract: instance,
@@ -120,29 +130,32 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <Container maxWidth="md">
-        <Typography variant="h2" component="div" gutterBottom>
-          DApp One Word At A Time
-        </Typography>
-        <Box sx={{ my: 4 }}>
-          <Paper elevation={3} xs={9} sx={{ p: 5 }} >
-            <Typography variant="h5" component="div" gutterBottom>
-              Phrase:
-            </Typography>
-            {this.state.phrase}
-          </Paper>
-        </Box>
-        <Box sx={{ my: 4 }}>
-          <TextField
-            id="new-word-textfield"
-            label="New Word"
-            variant="outlined"
-            value={this.state.textFieldValue}
-            onChange={this._handleTextFieldChange}
-            onKeyDown={(event) => this.keyPress(event, this)}
-          />
-        </Box>
-      </Container>
+      <ThemeProvider theme={this.state.theme}>
+        <CssBaseline />
+        <Container maxWidth="md">
+          <Typography variant="h2" component="div" gutterBottom>
+            DApp One Word At A Time
+          </Typography>
+          <Box sx={{ my: 4 }}>
+            <Paper elevation={3} xs={9} sx={{ p: 5 }} >
+              <Typography variant="h5" component="div" gutterBottom>
+                Phrase:
+              </Typography>
+              {this.state.phrase}
+            </Paper>
+          </Box>
+          <Box sx={{ my: 4 }}>
+            <TextField
+              id="new-word-textfield"
+              label="New Word"
+              variant="outlined"
+              value={this.state.textFieldValue}
+              onChange={this._handleTextFieldChange}
+              onKeyDown={(event) => this.keyPress(event, this)}
+            />
+          </Box>
+        </Container>
+      </ThemeProvider>
     );
   }
 }
