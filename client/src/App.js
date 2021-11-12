@@ -5,9 +5,13 @@ import {
   Paper,
   Box,
   Typography,
+  CssBaseline,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 
 import Phrase from "./contracts/Phrase.json";
 import getWeb3 from "./getWeb3";
@@ -22,6 +26,7 @@ class App extends Component {
     phraseContract: null,
     textFieldValue: "",
     phrase: "",
+    chosenAccount: 0,
   };
 
   componentDidMount = async () => {
@@ -71,10 +76,10 @@ class App extends Component {
   };
 
   addWord = async () => {
-    const { accounts, phraseContract } = this.state;
+    const { accounts, phraseContract, chosenAccount } = this.state;
 
     // Submit transaction to add new word
-    await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[0] });
+    await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[chosenAccount] });
 
     // Update state with the result from contract
     const response = await phraseContract.methods.getPhrase().call();
@@ -90,11 +95,16 @@ class App extends Component {
     }
   }
 
-  _handleTextFieldChange = (event) => {
+  handleTextFieldChange = (event) => {
     this.setState({
       textFieldValue: event.target.value
     });
   }
+
+  handleSelectChange = (event) => {
+    this.setState({ chosenAccount: event.target.value });
+  };
+
 
   render() {
     if (!this.state.web3) {
@@ -116,12 +126,27 @@ class App extends Component {
             </Paper>
           </Box>
           <Box sx={{ my: 4 }}>
+            <FormControl sx={{ m: 1, minWidth: 450 }}>
+              <InputLabel id="select-account-label">Select Account</InputLabel>
+              <Select
+                labelId="select-account-label"
+                id="select-account"
+                value={this.state.chosenAccount}
+                label="Select Account"
+                onChange={this.handleSelectChange}
+              >
+                {this.state.accounts.map((account, index) =>
+                  <MenuItem value={index} key={account}>{account}</MenuItem>
+                )}
+              </Select>
+            </FormControl>
             <TextField
+              sx={{ m: 1, minWidth: 200 }}
               id="new-word-textfield"
               label="New Word"
               variant="outlined"
               value={this.state.textFieldValue}
-              onChange={this._handleTextFieldChange}
+              onChange={this.handleTextFieldChange}
               onKeyDown={(event) => this.keyPress(event, this)}
             />
           </Box>
