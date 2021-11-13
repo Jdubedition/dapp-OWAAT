@@ -10,6 +10,10 @@ import {
   MenuItem,
   FormControl,
   Select,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -27,6 +31,8 @@ class App extends Component {
     textFieldValue: "",
     phrase: "",
     chosenAccount: 0,
+    transactionInputs: [],
+    maxHistory: 13,
   };
 
   componentDidMount = async () => {
@@ -68,26 +74,86 @@ class App extends Component {
     }
   };
 
+  getLatestBlocks = async (n) => {
+    const { web3 } = this.state;
+    const latest = await web3.eth.getBlockNumber()
+    const blockNumbers = [];
+    for (let i = 0; i < n; i++) {
+      blockNumbers.push(latest - i);
+    }
+    const batch = new web3.eth.BatchRequest()
+
+    const total = blockNumbers.length;
+    let counter = 0;
+    let blocks = [];
+
+    await new Promise(function (resolve, reject) {
+      blockNumbers.forEach(blockNumber => {
+        batch.add(
+          web3.eth.getBlock.request(blockNumber, true, (error, data) => {
+            if (error) return reject(error);
+
+            counter++;
+            blocks.push(data);
+
+            if (counter === total) resolve();
+          })
+        )
+      });
+
+      batch.execute()
+    });
+
+    return blocks
+  }
+
   initialContractState = async () => {
-    const phraseResponse = await this.state.phraseContract.methods.getPhrase().call();
+    const { phraseContract, web3, maxHistory } = this.state;
+    const phraseResponse = await phraseContract.methods.getPhrase().call();
+
+    // Get the latest blocks for history display
+    const blocks = await this.getLatestBlocks(maxHistory);
+    const transactionInputs = [];
+
+    for (let block of blocks) {
+      try {
+        // There is probably a better way to parse the input, but I could not get
+        // the method provided by web3js framework to work.
+        const input = web3.utils.hexToString(block.transactions[0].input);
+        const regex = /[A-Za-z!,;?.]*$/;
+        transactionInputs.push([block.transactions[0].from, input.match(regex)[0]]);
+      } catch (error) {
+        if (error.message !== "Cannot read property 'input' of undefined" && error.message !== "Invalid UTF-8 detected") {
+          // First error is thrown on a new network, so we ignore it.
+          // Second error is thrown on the first block in the chain, so we ignore it.
+          console.error(error);
+        }
+      }
+    }
 
     // Update state with the result from contract
-    this.setState({ phrase: phraseResponse });
+    this.setState({ phrase: phraseResponse, transactionInputs });
   };
 
   addWord = async () => {
-    const { accounts, phraseContract, chosenAccount } = this.state;
+    const { accounts, phraseContract, chosenAccount, transactionInputs, maxHistory } = this.state;
 
     // Submit transaction to add new word
     await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[chosenAccount] });
 
     // Update state with the result from contract
     const response = await phraseContract.methods.getPhrase().call();
-    this.setState({ phrase: response });
-    this.setState({ textFieldValue: "" });
+    let inputs;
+    if (transactionInputs.length === maxHistory) {
+      inputs = transactionInputs.slice(0, -1);
+    } else {
+      inputs = transactionInputs;
+    }
+    inputs.unshift([accounts[chosenAccount], this.state.textFieldValue]);
+    this.setState({ phrase: response, textFieldValue: "", transactionInputs: inputs });
   }
 
-  keyPress = async (event, thisLink) => {
+  handleKeyPress = async (event, thisLink) => {
     if (event.key === "Enter") {
       await thisLink.addWord();
     } else if (event.key === " ") {
@@ -105,7 +171,6 @@ class App extends Component {
     this.setState({ chosenAccount: event.target.value });
   };
 
-
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contracts...</div>;
@@ -114,7 +179,7 @@ class App extends Component {
       <ThemeProvider theme={this.state.theme}>
         <CssBaseline />
         <Container maxWidth="md">
-          <Typography variant="h2" component="div" gutterBottom>
+          <Typography variant="h2" component="div" align="center" gutterBottom>
             DApp One Word At A Time
           </Typography>
           <Box sx={{ my: 4 }}>
@@ -147,8 +212,22 @@ class App extends Component {
               variant="outlined"
               value={this.state.textFieldValue}
               onChange={this.handleTextFieldChange}
-              onKeyDown={(event) => this.keyPress(event, this)}
+              onKeyDown={(event) => this.handleKeyPress(event, this)}
             />
+          </Box>
+          <Box>
+            <List xs={6}>
+              {this.state.transactionInputs.map((input, index) => {
+                return (
+                  <Container key={index}>
+                    <ListItem>
+                      <ListItemText primary={input.join(" - ")} />
+                    </ListItem>
+                    {index === this.state.transactionInputs.length - 1 ? null : <Divider variant="middle" />}
+                  </Container>
+                )
+              })}
+            </List>
           </Box>
         </Container>
       </ThemeProvider>
