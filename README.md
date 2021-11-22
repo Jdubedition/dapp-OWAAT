@@ -16,6 +16,8 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * Install [Truffle](https://www.trufflesuite.com/docs/truffle/overview) CLI with `npm install -g truffle`
 * Create a Truffle React application `truffle unbox react`
 * Change port setting to `7545` (to use Ganache) in `truffle-config.js` and getWeb3.js
+* Update `truffle-config.js` to use Molereum network
+* Add NPM dependencies to `package.json` to support Molereum network
 * Add Material-UI to the project:
     * `cd client`
     * Update dependencies for good measure: `yarn upgrade-interactive --latest`
@@ -37,8 +39,16 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * Add import to ./migrations
 * Create tests by adding solidity file and JS file to ./test
 * Run `truffle test` to make sure everything is working as expected
+* `yarn install` to install dependencies required for Molereum network migration
 * Compile and Deploy contracts as using `truffle migrate`
 * Import contract into ./client/src/App.js (or other JS file in client/src)
+
+## Testing this DApp on [Molereum](https://github.com/Jdubedition/molereum) network
+* Make sure you have a crypto wallet setup on your local machine, with an account on the Molereum network, and a MOLE balance large enough to pay for the gas cost of the migration (recommend using Brave browser Crypto Wallets or MetaMask extension)
+* Create .env file from .env.template
+* Export private key of your Molereum account from your wallet and add it into .env.local
+* Migrate contracts to the network `truffle migrate --network molereum`
+* Start client `yarn start`
 
 ## Recommended reading
 * [Ethereum](https://ethereum.org/en/developers/docs/)

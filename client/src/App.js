@@ -29,11 +29,19 @@ class App extends Component {
     accounts: null,
     phraseContract: null,
     textFieldValue: "",
+    textFieldIsDisabled: false,
     phrase: "",
     chosenAccount: 0,
-    transactionInputs: [],
-    maxHistory: 13,
+    blockInfo: [],
+    maxHistory: 15,
+    blockExplorerIntervalID: null,
   };
+
+  blockInfoTemplate = {
+    number: 0,
+    hash: "",
+    transactions: [],
+  }
 
   componentDidMount = async () => {
     try {
@@ -74,11 +82,15 @@ class App extends Component {
     }
   };
 
-  getLatestBlocks = async (n) => {
-    const { web3 } = this.state;
+  componentWillUnmount() {
+    clearInterval(this.state.blockExplorerIntervalID);
+  }
+
+  getLatestBlocks = async () => {
+    const { web3, maxHistory } = this.state;
     const latest = await web3.eth.getBlockNumber()
     const blockNumbers = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < maxHistory; i++) {
       blockNumbers.push(latest - i);
     }
     const batch = new web3.eth.BatchRequest()
@@ -104,58 +116,73 @@ class App extends Component {
       batch.execute()
     });
 
-    return blocks
-  }
-
-  initialContractState = async () => {
-    const { phraseContract, web3, maxHistory } = this.state;
-    const phraseResponse = await phraseContract.methods.getPhrase().call();
-
     // Get the latest blocks for history display
-    const blocks = await this.getLatestBlocks(maxHistory);
-    const transactionInputs = [];
+    const blockInfo = [];
 
     for (let block of blocks) {
-      try {
-        // There is probably a better way to parse the input, but I could not get
-        // the method provided by web3js framework to work.
-        const input = web3.utils.hexToString(block.transactions[0].input);
-        const regex = /[A-Za-z!,;?.]*$/;
-        transactionInputs.push([block.transactions[0].from, input.match(regex)[0]]);
-      } catch (error) {
-        if (error.message !== "Cannot read property 'input' of undefined" && error.message !== "Invalid UTF-8 detected") {
-          // First error is thrown on a new network, so we ignore it.
-          // Second error is thrown on the first block in the chain, so we ignore it.
-          console.error(error);
+      let blockObject = Object.assign({}, this.blockInfoTemplate);
+      blockObject.number = block.number;
+      blockObject.hash = block.hash;
+      blockObject.transactions = [];
+      if (block.transactions.length > 0) {
+        for (const trans of block.transactions) {
+          try {
+            // There is probably a better way to parse the input, but I could not get
+            // the method provided by web3js framework to work.
+            const input = web3.utils.hexToString(trans.input);
+            const regex = /[A-Za-z!,;?.]*$/;
+            // blockInfo.push([block.hash, input.match(regex)[0]]);
+            blockObject.transactions.push({
+              hash: trans.hash,
+              input: input.match(regex)[0]
+            })
+          } catch (error) {
+            if (error.message !== "Cannot read property 'input' of undefined" && error.message !== "Invalid UTF-8 detected") {
+              // First error is thrown on a new network, so we ignore it.
+              // Second error is thrown on the first block in the chain, so we ignore it.
+              console.error(error);
+            }
+          }
         }
       }
+      blockInfo.push(blockObject);
     }
 
     // Update state with the result from contract
-    this.setState({ phrase: phraseResponse, transactionInputs });
+    this.setState({ blockInfo });
+  }
+
+  initialContractState = async () => {
+    const { phraseContract } = this.state;
+    const phraseResponse = await phraseContract.methods.getPhrase().call();
+
+    this.getLatestBlocks();
+    const blockExplorerIntervalID = window.setInterval(this.getLatestBlocks, 3000);
+
+    // Update state with the result from contract
+    this.setState({ phrase: phraseResponse, blockExplorerIntervalID });
   };
 
   addWord = async () => {
-    const { accounts, phraseContract, chosenAccount, transactionInputs, maxHistory } = this.state;
+    const { accounts, phraseContract, chosenAccount } = this.state;
 
     // Submit transaction to add new word
     await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[chosenAccount] });
 
     // Update state with the result from contract
     const response = await phraseContract.methods.getPhrase().call();
-    let inputs;
-    if (transactionInputs.length === maxHistory) {
-      inputs = transactionInputs.slice(0, -1);
-    } else {
-      inputs = transactionInputs;
-    }
-    inputs.unshift([accounts[chosenAccount], this.state.textFieldValue]);
-    this.setState({ phrase: response, textFieldValue: "", transactionInputs: inputs });
+    this.setState({ phrase: response, textFieldValue: "" });
   }
 
   handleKeyPress = async (event, thisLink) => {
-    if (event.key === "Enter") {
-      await thisLink.addWord();
+    if (event.key === "Enter" && this.state.textFieldValue !== "") {
+      this.setState({ textFieldIsDisabled: true });
+      try {
+        await thisLink.addWord();
+      } catch (error) {
+        console.error(error);
+      }
+      this.setState({ textFieldIsDisabled: false });
     } else if (event.key === " ") {
       event.preventDefault();
     }
@@ -185,7 +212,7 @@ class App extends Component {
           <Box sx={{ my: 4 }}>
             <Paper elevation={3} xs={9} sx={{ p: 5 }} >
               <Typography variant="h5" component="div" gutterBottom>
-                Phrase:
+                Story:
               </Typography>
               {this.state.phrase}
             </Paper>
@@ -213,17 +240,24 @@ class App extends Component {
               value={this.state.textFieldValue}
               onChange={this.handleTextFieldChange}
               onKeyDown={(event) => this.handleKeyPress(event, this)}
+              disabled={this.state.textFieldIsDisabled}
             />
           </Box>
           <Box>
+            <Typography variant="h6" component="div" align="center" gutterBottom>
+              Block Information
+            </Typography>
+            <Typography variant="h8" component="div" align="center" gutterBottom>
+              (Block Number - Block Hash - Transaction Input)
+            </Typography>
             <List xs={6}>
-              {this.state.transactionInputs.map((input, index) => {
+              {this.state.blockInfo.map((block, index) => {
                 return (
                   <Container key={index}>
                     <ListItem>
-                      <ListItemText primary={input.join(" - ")} />
+                      <ListItemText primary={[block.number, block.hash, (block.transactions ? block.transactions.map((trans) => trans.input) : [])].join(" - ")} />
                     </ListItem>
-                    {index === this.state.transactionInputs.length - 1 ? null : <Divider variant="middle" />}
+                    {index === this.state.blockInfo.length - 1 ? null : <Divider variant="middle" />}
                   </Container>
                 )
               })}
