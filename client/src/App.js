@@ -14,6 +14,7 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  LinearProgress,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -217,7 +218,12 @@ class App extends Component {
               {this.state.phrase}
             </Paper>
           </Box>
-          <Box sx={{ my: 4 }}>
+          <Box>
+            {this.state.textFieldIsDisabled &&
+              <LinearProgress color="inherit" />
+            }
+          </Box>
+          <Box sx={{ my: 2 }}>
             <FormControl sx={{ m: 1, minWidth: 450 }}>
               <InputLabel id="select-account-label">Select Account</InputLabel>
               <Select
@@ -247,8 +253,11 @@ class App extends Component {
             <Typography variant="h6" component="div" align="center" gutterBottom>
               Block Information
             </Typography>
+            <Typography variant="subtitle1" component="div" align="center" gutterBottom>
+              (refreshes automatically)
+            </Typography>
             <Typography variant="h8" component="div" align="center" gutterBottom>
-              (Block Number - Block Hash - Transaction Input)
+              Block Number - Block Hash - Transaction Input
             </Typography>
             <List xs={6}>
               {this.state.blockInfo.map((block, index) => {
