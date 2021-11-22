@@ -30,7 +30,7 @@ class App extends Component {
     accounts: null,
     phraseContract: null,
     textFieldValue: "",
-    textFieldIsDisabled: false,
+    isProcessingTransaction: false,
     phrase: "",
     chosenAccount: 0,
     blockInfo: [],
@@ -177,13 +177,13 @@ class App extends Component {
 
   handleKeyPress = async (event, thisLink) => {
     if (event.key === "Enter" && this.state.textFieldValue !== "") {
-      this.setState({ textFieldIsDisabled: true });
+      this.setState({ isProcessingTransaction: true });
       try {
         await thisLink.addWord();
       } catch (error) {
         console.error(error);
       }
-      this.setState({ textFieldIsDisabled: false });
+      this.setState({ isProcessingTransaction: false });
     } else if (event.key === " ") {
       event.preventDefault();
     }
@@ -219,7 +219,7 @@ class App extends Component {
             </Paper>
           </Box>
           <Box>
-            {this.state.textFieldIsDisabled &&
+            {this.state.isProcessingTransaction &&
               <LinearProgress color="inherit" />
             }
           </Box>
@@ -246,7 +246,7 @@ class App extends Component {
               value={this.state.textFieldValue}
               onChange={this.handleTextFieldChange}
               onKeyDown={(event) => this.handleKeyPress(event, this)}
-              disabled={this.state.textFieldIsDisabled}
+              disabled={this.state.isProcessingTransaction}
             />
           </Box>
           <Box>
