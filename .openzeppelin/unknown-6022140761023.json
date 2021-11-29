@@ -1,0 +1,35 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xEf70f6aa5F5974380De528869eA5D42457549aF5",
+    "txHash": "0x457c7fa9b6e2dc6ee3741685c2462a5de62fb2983776762c669c06ef956cab5a"
+  },
+  "proxies": [
+    {
+      "address": "0xD9b80B5e33442365662d2AF0e9d306610dF10682",
+      "txHash": "0x629eb4a45d8fa5dda0181ce604281abf1316e6f82fee046bfeca9f65c98c2a0d",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "9711c51338369e47cfa141c3c038b715ff176d7c1dcd375d05bc999408dfd6f2": {
+      "address": "0xaa2a8ED48A2F4f0582828b12679a8aaD66C0A382",
+      "txHash": "0x01e530fb0ed0a398f041c070bdd7f636ce026c5a1bf25b9eee6d761894173703",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Phrase",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Migrations.sol:5"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    }
+  }
+}

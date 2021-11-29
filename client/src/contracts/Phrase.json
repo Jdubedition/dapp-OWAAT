@@ -25,8 +25,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"word\",\"type\":\"string\"}],\"name\":\"addWord\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPhrase\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Phrase.sol\":\"Phrase\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Phrase.sol\":{\"keccak256\":\"0x979bbdaed3b69d438d31efb238073236aa2192504b9039232158a16bd050c357\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://35c2ef565200f6c34fe915797d1cd108121aa55988344d9feb36345623258722\",\"dweb:/ipfs/QmZmbuFNVMNjLSq86kq2FJa1DmDm2PSvfWnDHY1trB2idh\"]}},\"version\":1}",
@@ -4954,13 +4953,12 @@
     "6022140761023": {
       "events": {},
       "links": {},
-      "address": "0x47283E7cc740959355E4429B3CF3b09E42B0deD9",
-      "transactionHash": "0x1acf7c1a0be83c62e5e30a50cdf5d4346b9070d5800edf864932c9b4354b3ba1"
+      "address": "0xD9b80B5e33442365662d2AF0e9d306610dF10682",
+      "transactionHash": "0x01e530fb0ed0a398f041c070bdd7f636ce026c5a1bf25b9eee6d761894173703"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-22T04:20:50.279Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-11-29T02:09:45.307Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
