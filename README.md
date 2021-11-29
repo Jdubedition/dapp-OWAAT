@@ -34,14 +34,23 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
         />
     ```
 
-## Adding or updating contracts
+## Adding contracts
+* `yarn install` to install dependencies
 * Add solidity file to ./contracts
-* Add import to ./migrations
+* Add deployProxy to ./migrations (uses [OpenZeppelin](https://docs.openzeppelin.com/learn/upgrading-smart-contracts) deployProxy for upgrading contracts later, has additional expense of deploying ProxyAdmin and TransparentUpgradeableProxy contracts for each contract)
 * Create tests by adding solidity file and JS file to ./test
 * Run `truffle test` to make sure everything is working as expected
-* `yarn install` to install dependencies required for Molereum network migration
-* Compile and Deploy contracts as using `truffle migrate`
+* Compile and Deploy contracts as using `truffle migrate` (use `--network <network>` to deploy to a specific network)
 * Import contract into ./client/src/App.js (or other JS file in client/src)
+
+## Upgrading contracts
+* `yarn install` to install dependencies
+* Add solidity file to ./contracts with suffix designation of next version (e.g. V2 or V3)
+* Add upgradeProxy to ./migrations (uses OpenZeppelin upgradeProxy and new contract version)
+* Create tests by adding solidity file and JS file to ./test
+* Run `truffle test` to make sure everything is working as expected
+* Compile and Deploy contracts as using `truffle migrate` (use `--network <network>` to deploy to a specific network)
+* Update ./client/src/App.js to import new contract version
 
 ## Testing this DApp on [Molereum](https://github.com/Jdubedition/molereum) network
 * Make sure you have a crypto wallet setup on your local machine, with an account on the Molereum network, and a MOLE balance large enough to pay for the gas cost of the migration (recommend using Brave browser Crypto Wallets or MetaMask extension)
@@ -53,3 +62,4 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 ## Recommended reading
 * [Ethereum](https://ethereum.org/en/developers/docs/)
 * [Truffle](https://www.trufflesuite.com/docs/truffle/overview)
+* [OpenZeppelin](https://docs.openzeppelin.com/learn/)
