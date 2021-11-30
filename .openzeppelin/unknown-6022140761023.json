@@ -30,6 +30,25 @@
           }
         }
       }
+    },
+    "52c9862174bacf5507270af3dfa8bc4b9477f5c76baf58420a0ef9caca99e1fc": {
+      "address": "0x502aE718Bf9bdc6D66a7a51c95bE5e03D4764a9D",
+      "txHash": "0x5457ee874d07e838eb92420023d5a9dbb2c970156104118bbf312226b2f9b753",
+      "layout": {
+        "storage": [
+          {
+            "contract": "PhraseV2",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Migrations.sol:5"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
     }
   }
 }

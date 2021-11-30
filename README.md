@@ -33,6 +33,7 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
     ```
+* Add OpenZeppelin upgradeable contracts for truffle `yarn add -D @openzeppelin/truffle-upgrades` (note when compiling or migrating, this will add a .openzeppelin directory to the project and this will be used to link ProxyAdmin and TransparentUpgradableProxy contracts with the Truffle contracts in client/src/contracts directory)
 
 ## Adding contracts
 * `yarn install` to install dependencies
@@ -47,7 +48,7 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * `yarn install` to install dependencies
 * Add solidity file to ./contracts with suffix designation of next version (e.g. V2 or V3)
 * Add upgradeProxy to ./migrations (uses OpenZeppelin upgradeProxy and new contract version)
-* Create tests by adding solidity file and JS file to ./test
+* Update tests associated with contract solidity file and JS file in ./test
 * Run `truffle test` to make sure everything is working as expected
 * Compile and Deploy contracts as using `truffle migrate` (use `--network <network>` to deploy to a specific network)
 * Update ./client/src/App.js to import new contract version

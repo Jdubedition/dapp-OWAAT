@@ -11,9 +11,9 @@ contract TestPhrase {
 
         phrase.addWord("test");
 
-        string memory expected = "test";
+        string memory expected = "Once upon a time test";
 
-        Assert.equal(phrase.getPhrase(), expected, "Phrase should be 'test'.");
+        Assert.equal(phrase.getPhrase(), expected, "Phrase should be 'Once upon a time test'.");
     }
 
     function testAddsSecondWordToPhrase() public {
@@ -21,12 +21,12 @@ contract TestPhrase {
 
         phrase.addWord("this");
 
-        string memory expected = "test this";
+        string memory expected = "Once upon a time test this";
 
         Assert.equal(
             phrase.getPhrase(),
             expected,
-            "Phrase should be 'test this'."
+            "Phrase should be 'Once upon a time test this'."
         );
     }
 }

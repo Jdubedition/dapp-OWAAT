@@ -9,7 +9,7 @@ contract("Phrase", accounts => {
 
         const storedData = await phraseInstance.getPhrase.call();
 
-        assert.equal(storedData, "test", "Phrase should be 'test'.");
+        assert.equal(storedData, "Once upon a time test", "Phrase should be 'Once upon a time test'.");
     });
 
     it("test adding second word", async () => {
@@ -19,6 +19,6 @@ contract("Phrase", accounts => {
 
         const storedData = await phraseInstance.getPhrase.call();
 
-        assert.equal(storedData, "test this", "Phrase should be 'test this'.");
+        assert.equal(storedData, "Once upon a time test this", "Phrase should be 'Once upon a time test this'.");
     });
 });
