@@ -156,12 +156,13 @@ class App extends Component {
   initialContractState = async () => {
     const { phraseContract } = this.state;
     const phraseResponse = await phraseContract.methods.getPhrase().call();
+    this.setState({ phrase: phraseResponse });
 
-    this.getLatestBlocks();
-    const blockExplorerIntervalID = window.setInterval(this.getLatestBlocks, 3000);
-
-    // Update state with the result from contract
-    this.setState({ phrase: phraseResponse, blockExplorerIntervalID });
+    if (!this.props.doNotRunBlockExplorer) {
+      this.getLatestBlocks();
+      const blockExplorerIntervalID = window.setInterval(this.getLatestBlocks, 3000);
+      this.setState({ blockExplorerIntervalID });
+    }
   };
 
   addWord = async () => {
@@ -201,7 +202,7 @@ class App extends Component {
 
   render() {
     if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contracts...</div>;
+      return <div className="loading-screen">Loading Web3, accounts, and contracts...</div>;
     }
     return (
       <ThemeProvider theme={this.state.theme}>
