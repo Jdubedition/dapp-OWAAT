@@ -3,6 +3,10 @@
 ## Introduction
 This is a decentralized application (DApp) that demonstrates a simple implementation using the game of OWAAT (One Word At A Time).
 
+## Access this DApp
+* To use this site, you must have a wallet setup with an account and registered with the [Molereum](https://github.com/Jdubedition/molereum) network (will change this in the future)
+* Go to [dapp-owaat.jdubedition.com](https://dapp-owaat.jdubedition.com)
+
 ## Running this DApp
 * Clone this repository to your workstation
 * Download and execute [Ganauche](https://www.trufflesuite.com/ganache), to run a local blockchain (choose Quickstart network option in GUI)
@@ -34,6 +38,7 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
         />
     ```
 * Add OpenZeppelin upgradeable contracts for truffle `yarn add -D @openzeppelin/truffle-upgrades` (note when compiling or migrating, this will add a .openzeppelin directory to the project and this will be used to link ProxyAdmin and TransparentUpgradableProxy contracts with the Truffle contracts in client/src/contracts directory)
+* Use [CloudFlare Pages](https://developers.cloudflare.com/pages/framework-guides/deploy-a-react-application) React application configuration.  A few settings to point at the `client` directory, run `yarn build`, and use the custom domain of [dapp-owaat.jdubedition.com](https://dapp-owaat.jdubedition.com) and it is all set.
 
 ## Adding contracts
 * `yarn install` to install dependencies
