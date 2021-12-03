@@ -3,8 +3,7 @@ require('dotenv').config({ path: 'client/.env.local' });
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
-const molereumPrivateKey = process.env.MOLEREUM_PRIVATE_KEY;
-const ganachePrivateKey = process.env.GANACHE_PRIVATE_KEY;
+const testAccountPrivateKey = process.env.TEST_ACCOUNT_PRIVATE_KEY;
 
 const moleChain = process.env.MOLE_CHAIN;
 
@@ -15,14 +14,14 @@ module.exports = {
   networks: {
     develop: {
       provider: () => new HDWalletProvider({
-        privateKeys: [ganachePrivateKey],
+        privateKeys: [testAccountPrivateKey],
         providerOrUrl: "http://localhost:7545",
       }),
       network_id: "*"
     },
     molereum: {
       provider: () => new HDWalletProvider({
-        privateKeys: [molereumPrivateKey],
+        privateKeys: [testAccountPrivateKey],
         providerOrUrl: moleChain,
       }),
       network_id: 6022140761023,

@@ -9,11 +9,19 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 
 ## Running this DApp
 * Clone this repository to your workstation
-* Download and execute [Ganauche](https://www.trufflesuite.com/ganache), to run a local blockchain (choose Quickstart network option in GUI)
-* Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable), to run React client
-* `cd client`
-* `yarn install`
-* `yarn start`, this should open `http://localhost:3000` in your default browser
+* Download and execute [Ganache](https://www.trufflesuite.com/ganache), to run a local blockchain (choose Quickstart network option in GUI)
+* Setup account information for the DApp
+  * Import private key for one of the Ganache accounts into your wallet
+  * Transfer funds from the imported account to the test account in your wallet
+  * Copy .env.template to .env.local and add the private key for your test account
+* Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
+* Push contracts to Ganache
+  * `yarn install`
+  * `truffle migrate --network develop`
+* Run the DApp
+    * `cd client`
+    * `yarn install`
+    * `yarn start`, this should open `http://localhost:3000` in your default browser
 * enjoy!
 
 ## Steps used to create this DApp
