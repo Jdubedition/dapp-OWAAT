@@ -1,5 +1,5 @@
 import { render, unmountComponentAtNode } from "react-dom";
-import { act, scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
+import { act } from "react-dom/test-utils";
 import App from './App';
 
 jest.mock('./getWeb3', () => {
@@ -52,7 +52,7 @@ afterEach(() => {
 
 it("renders initial state of App with simple element checks", async () => {
   act(() => {
-    render(<App doNotRunBlockExplorer />, container);
+    render(<App doNotRunUpdateDAppToChainInterval />, container);
   });
 
   function sleep(ms) {

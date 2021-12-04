@@ -1,39 +1,70 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0xe3F90740b42A23e540a38c3EEb70Acd61964Cb05",
-    "txHash": "0xaf5c436b1c3882549cd0a862db49b32305c953dba5e75dd4d42fc801e7e61487"
+    "address": "0xf25186B5081Ff5cE73482AD761DB0eB0d25abfBF",
+    "txHash": "0x7471f0538aea94dfe3bbd6007986734093223ede25630382f2f0d7ed4a848964"
   },
   "proxies": [
     {
       "address": "0x20dd96dad0Fd75437d832B1863c11b1eCF6c7a94",
       "txHash": "0xecd465e94dcf101ebd609ff83db6d0db5b6a65c5b68a14b8ef42dfbc39170c41",
       "kind": "transparent"
+    },
+    {
+      "address": "0x66601fA641A5c9Ef21587067Fa6D03E99d5c8a0A",
+      "txHash": "0xee9748d9230975ac37a95c6bed74fc8bb3a0bc3eafefbd58836bf454f86355c1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x445ced5bcFca10738A529a7d3ea0B23E43Ed35b9",
+      "txHash": "0x851f615d6186009888c4b5d8038651d1c14f556157aadd63fdb892414ab282da",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xbD2915A620e7869D7Ce1f49E553E1b36Ba6E32B0",
+      "txHash": "0x33b5a8fd33716a788f5daab76cf06f5ce0067090dcaae4f7ff33862460ea1e97",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x057FC7D35b04f63293538E46304cCaB4726c6d30",
+      "txHash": "0xbe81468daeeb04b3bf72c83d84b54a30dd9a7c44a79f2d348d3938a089b64f65",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x36550dC85fbAdcE36EE6E64e8e6f0F828b649f47",
+      "txHash": "0xf206fd2eb5366eb71b95de5a0c018ab1d74614e4bcd1e1caee8c3418e6253059",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xCE271e3DC8370e6ae704aC8888F92FD9982f177F",
+      "txHash": "0xd29b49294fc925a5de9627233bd20ed71e744531bea383525d527ecd20816982",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xDcc93ec5FF70D0E2F86C023C3234d4b7874E774B",
+      "txHash": "0xefe623a61e446119185957467b690079875fecc725e3adc469487f256f8d97d7",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xfdB547fB971f8496296e89F9Ec13761697dc2f85",
+      "txHash": "0xb1736316dd2b47da5c0a4310648bf7c28c15a59db4eba1d647556d5df675df30",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1E822f675d1467e44F252834268fd29A73CD8Bc8",
+      "txHash": "0x10dee21874c420cdacdfcec2ab5c15ff0a445ea7d08c8512e8b1a501c701d399",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8f0483125FCb9aaAEFA9209D8E9d7b9C8B9Fb90F",
+      "txHash": "0xc015422dee7425c71210f19d9cbd0a7e158b8cd8d9ea2287095f6519253e96ef",
+      "kind": "transparent"
     }
   ],
   "impls": {
-    "9711c51338369e47cfa141c3c038b715ff176d7c1dcd375d05bc999408dfd6f2": {
-      "address": "0x62a0047DE86801b7BaA2eE0a9Ff77d1D854A9537",
-      "txHash": "0x09721b273f46bbe80f2562449138f2358f15387a6ac3f77242e9f876f53f8029",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Phrase",
-            "label": "storedData",
-            "type": "t_string_storage",
-            "src": "../project:/contracts/Phrase.sol:5"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          }
-        }
-      }
-    },
     "52c9862174bacf5507270af3dfa8bc4b9477f5c76baf58420a0ef9caca99e1fc": {
-      "address": "0x50C19f7b191C274804A166706fbBB4Bd69015bdf",
-      "txHash": "0xcc189e4d4b629de377053ae45617150f3329e6e2dab69f6007d48e13fc0f6032",
+      "address": "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4",
+      "txHash": "0x3026fc68dc5af2e920426fe06bfed50ce6a8c34ac27c03d121f1f8a85de1d5ba",
       "layout": {
         "storage": [
           {
@@ -46,6 +77,86 @@
         "types": {
           "t_string_storage": {
             "label": "string"
+          }
+        }
+      }
+    },
+    "b0b6b9c876fdb0994c79bb9eb7f73ead51e17c6e57cfe5c351d28d988f021d75": {
+      "address": "0xdF24efd138C1DFb9E73c5EC2bD33Ad6ed7563E13",
+      "txHash": "0x3e6e9c4a6e3e35d10cf5f0fadb2204910a4736f211ec854ad8bdd81b0d876b41",
+      "layout": {
+        "storage": [
+          {
+            "contract": "PhraseV3",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Migrations.sol:5"
+          },
+          {
+            "contract": "PhraseV3",
+            "label": "transactionHistoryAddresses",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "../project:/contracts/Migrations.sol:6"
+          },
+          {
+            "contract": "PhraseV3",
+            "label": "transactionHistoryPhrases",
+            "type": "t_array(t_string_storage)dyn_storage",
+            "src": "../project:/contracts/Migrations.sol:8"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]"
+          }
+        }
+      }
+    },
+    "c92a8b4e622e203a36a909005d36b4f09f634309ea84afdf501768c1b280125d": {
+      "address": "0x345cA3e014Aaf5dcA488057592ee47305D9B3e10",
+      "txHash": "0x84879ff7f36e955a56f2e753247743744f2dc6000a7dc776928d8acfa2ae171d",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Phrase",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Migrations.sol:5"
+          },
+          {
+            "contract": "Phrase",
+            "label": "transactionHistoryAddresses",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "../project:/contracts/Migrations.sol:20"
+          },
+          {
+            "contract": "Phrase",
+            "label": "transactionHistoryPhrases",
+            "type": "t_array(t_string_storage)dyn_storage",
+            "src": "../project:/contracts/Migrations.sol:20"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]"
           }
         }
       }

@@ -33,16 +33,10 @@ class App extends Component {
     isProcessingTransaction: false,
     phrase: "",
     chosenAccount: 0,
-    blockInfo: [],
+    transactionHistory: [[]],
     maxHistory: 15,
-    blockExplorerIntervalID: null,
+    transactionHistoryIntervalID: null,
   };
-
-  blockInfoTemplate = {
-    number: 0,
-    hash: "",
-    transactions: [],
-  }
 
   componentDidMount = async () => {
     try {
@@ -84,84 +78,26 @@ class App extends Component {
   };
 
   componentWillUnmount() {
-    clearInterval(this.state.blockExplorerIntervalID);
+    clearInterval(this.state.transactionHistoryIntervalID);
   }
 
-  getLatestBlocks = async () => {
-    const { web3, maxHistory } = this.state;
-    const latest = await web3.eth.getBlockNumber()
-    const blockNumbers = [];
-    for (let i = 0; i < maxHistory; i++) {
-      blockNumbers.push(latest - i);
+  updateDAppToChain = async () => {
+    const { phraseContract } = this.state;
+    const phrase = await phraseContract.methods.getPhrase().call();
+    const transactionHistoryResponse = await phraseContract.methods.getTransactionHistory().call();
+    const transactionHistory = [];
+    for (let i = 0; i < transactionHistoryResponse[0].length; i++) {
+      transactionHistory.push([transactionHistoryResponse[0][i], transactionHistoryResponse[1][i]]);
     }
-    const batch = new web3.eth.BatchRequest()
-
-    const total = blockNumbers.length;
-    let counter = 0;
-    let blocks = [];
-
-    await new Promise(function (resolve, reject) {
-      blockNumbers.forEach(blockNumber => {
-        batch.add(
-          web3.eth.getBlock.request(blockNumber, true, (error, data) => {
-            if (error) return reject(error);
-
-            counter++;
-            blocks.push(data);
-
-            if (counter === total) resolve();
-          })
-        )
-      });
-
-      batch.execute()
-    });
-
-    // Get the latest blocks for history display
-    const blockInfo = [];
-
-    for (let block of blocks) {
-      let blockObject = Object.assign({}, this.blockInfoTemplate);
-      blockObject.number = block.number;
-      blockObject.hash = block.hash;
-      blockObject.transactions = [];
-      if (block.transactions.length > 0) {
-        for (const trans of block.transactions) {
-          try {
-            // There is probably a better way to parse the input, but I could not get
-            // the method provided by web3js framework to work.
-            const input = web3.utils.hexToString(trans.input);
-            const regex = /[A-Za-z!,;?.]*$/;
-            // blockInfo.push([block.hash, input.match(regex)[0]]);
-            blockObject.transactions.push({
-              hash: trans.hash,
-              input: input.match(regex)[0]
-            })
-          } catch (error) {
-            if (error.message !== "Cannot read property 'input' of undefined" && error.message !== "Invalid UTF-8 detected") {
-              // First error is thrown on a new network, so we ignore it.
-              // Second error is thrown on the first block in the chain, so we ignore it.
-              console.error(error);
-            }
-          }
-        }
-      }
-      blockInfo.push(blockObject);
-    }
-
-    // Update state with the result from contract
-    this.setState({ blockInfo });
+    this.setState({ phrase, transactionHistory });
   }
 
   initialContractState = async () => {
-    const { phraseContract } = this.state;
-    const phraseResponse = await phraseContract.methods.getPhrase().call();
-    this.setState({ phrase: phraseResponse });
+    this.updateDAppToChain();
 
-    if (!this.props.doNotRunBlockExplorer) {
-      this.getLatestBlocks();
-      const blockExplorerIntervalID = window.setInterval(this.getLatestBlocks, 3000);
-      this.setState({ blockExplorerIntervalID });
+    if (!this.props.doNotRunUpdateDAppToChainInterval) {
+      const transactionHistoryIntervalID = window.setInterval(this.updateDAppToChain, 3000);
+      this.setState({ transactionHistoryIntervalID });
     }
   };
 
@@ -171,9 +107,8 @@ class App extends Component {
     // Submit transaction to add new word
     await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[chosenAccount] });
 
-    // Update state with the result from contract
-    const response = await phraseContract.methods.getPhrase().call();
-    this.setState({ phrase: response, textFieldValue: "" });
+    this.updateDAppToChain();
+    this.setState({ textFieldValue: "" });
   }
 
   handleKeyPress = async (event, thisLink) => {
@@ -250,24 +185,21 @@ class App extends Component {
               disabled={this.state.isProcessingTransaction}
             />
           </Box>
-          <Box>
+          <Box sx={{ px: 8 }}>
             <Typography variant="h6" component="div" align="center" gutterBottom>
-              Block Information
-            </Typography>
-            <Typography variant="subtitle1" component="div" align="center" gutterBottom>
-              (refreshes automatically)
+              Transaction History
             </Typography>
             <Typography variant="h8" component="div" align="center" gutterBottom>
-              Block Number - Block Hash - Transaction Input
+              Address - Word
             </Typography>
-            <List xs={6}>
-              {this.state.blockInfo.map((block, index) => {
+            <List>
+              {this.state.transactionHistory.map((transaction, index) => {
                 return (
                   <Container key={index}>
                     <ListItem>
-                      <ListItemText primary={[block.number, block.hash, (block.transactions ? block.transactions.map((trans) => trans.input) : [])].join(" - ")} />
+                      <ListItemText primary={transaction.join(" - ")} />
                     </ListItem>
-                    {index === this.state.blockInfo.length - 1 ? null : <Divider variant="middle" />}
+                    {index === this.state.transactionHistory.length - 1 ? null : <Divider variant="middle" />}
                   </Container>
                 )
               })}

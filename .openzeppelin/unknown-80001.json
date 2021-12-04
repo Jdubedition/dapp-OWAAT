@@ -9,6 +9,21 @@
       "address": "0x445ced5bcFca10738A529a7d3ea0B23E43Ed35b9",
       "txHash": "0x6a13c0afd1381ecd1ceea069156a99586b3ac8ce9e79f488deff1af778de1ce6",
       "kind": "transparent"
+    },
+    {
+      "address": "0x39deF10567e984f486Fb95003d3FBaDD2FcF1c08",
+      "txHash": "0xa6ebc208d4797f10c5b253fee38128c624a3c696fe351afc4abea95a2d0d8537",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7bEf674630ad2FB1851eAB28E9cA45F2c1A85dcc",
+      "txHash": "0xada879618c2f09d63c7cbd5124e0afa7c7bc372727643a011a8e5bdb4466fa12",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x057FC7D35b04f63293538E46304cCaB4726c6d30",
+      "txHash": "0xa26f2c7d1a1976a978296682c3f114cbfd5f0a217f77ba13106bd415b1b77d50",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -27,6 +42,46 @@
         "types": {
           "t_string_storage": {
             "label": "string"
+          }
+        }
+      }
+    },
+    "c92a8b4e622e203a36a909005d36b4f09f634309ea84afdf501768c1b280125d": {
+      "address": "0x5e189Fdc58C343FAD9626F5a289747b37FFeA261",
+      "txHash": "0xc104c945c527c54a34c6761eff78e1ad2fb2295b5b265c9a16798a806e0131b9",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Phrase",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Migrations.sol:5"
+          },
+          {
+            "contract": "Phrase",
+            "label": "transactionHistoryAddresses",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "../project:/contracts/Migrations.sol:20"
+          },
+          {
+            "contract": "Phrase",
+            "label": "transactionHistoryPhrases",
+            "type": "t_array(t_string_storage)dyn_storage",
+            "src": "../project:/contracts/Migrations.sol:20"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]"
           }
         }
       }
