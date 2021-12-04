@@ -1,0 +1,35 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x206a8a18990feE8c54183aedcC7C5884471Ab814",
+    "txHash": "0x90acb67548900893e21f4950a2cfb633d72cb37eb041d400ae01f7d1f0362195"
+  },
+  "proxies": [
+    {
+      "address": "0x445ced5bcFca10738A529a7d3ea0B23E43Ed35b9",
+      "txHash": "0x6a13c0afd1381ecd1ceea069156a99586b3ac8ce9e79f488deff1af778de1ce6",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "9711c51338369e47cfa141c3c038b715ff176d7c1dcd375d05bc999408dfd6f2": {
+      "address": "0x26B1C8F316F328Be7F37F46ec64Ce01a750F6746",
+      "txHash": "0x4c091f798a64cda14e660f8483a0d158f9db8abc4b8b0c603de63f7f293c2156",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Phrase",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Phrase.sol:5"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    }
+  }
+}

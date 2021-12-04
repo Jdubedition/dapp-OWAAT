@@ -4,7 +4,16 @@
 This is a decentralized application (DApp) that demonstrates a simple implementation using the game of OWAAT (One Word At A Time).
 
 ## Access this DApp
-* To use this site, you must have a wallet setup with an account and registered with the [Molereum](https://github.com/Jdubedition/molereum) network (will change this in the future)
+* Must have a crypto wallet
+* Connect account to one of the following networks:
+  * Polygon Mumbai Test Network
+    * Recommend registering for a free RPC Matic Vigil account at [https://rpc.maticvigil.com/](https://rpc.maticvigil.com/)
+    * Add OWAAT application to get a free endpoint/ID registered with the network
+    * Add the test network RPC endpoint/ID to your wallet
+    * Go to Polygon faucet to get MATIC [https://faucet.polygon.technology/](https://faucet.polygon.technology/)
+  * [Molereum](https://github.com/Jdubedition/molereum) private network
+    * Add RPC endpoint to your wallet, [https://molereum.jdubedition.com](https://molereum.jdubedition.com)
+    * Currently no faucet for this network, so have to contact Justin to get MOLE for your account
 * Go to [dapp-owaat.jdubedition.com](https://dapp-owaat.jdubedition.com)
 
 ## Running this DApp
