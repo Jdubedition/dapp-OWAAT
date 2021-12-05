@@ -25,7 +25,11 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    theme: null,
+    theme: createTheme({
+      palette: {
+        mode: 'dark',
+      },
+    }),
     web3: null,
     accounts: null,
     phraseContract: null,
@@ -36,17 +40,11 @@ class App extends Component {
     transactionHistory: [[]],
     maxHistory: 15,
     transactionHistoryIntervalID: null,
+    web3ConnectionError: false,
   };
 
   componentDidMount = async () => {
     try {
-      // Set MaterialUI theme
-      const darkTheme = createTheme({
-        palette: {
-          mode: 'dark',
-        },
-      });
-
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
 
@@ -63,17 +61,12 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state
       this.setState({
-        theme: darkTheme,
         web3,
         accounts,
         phraseContract: phraseInstance,
       }, this.initialContractState);
     } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
-      );
-      console.error(error);
+      this.setState({ web3ConnectionError: true });
     }
   };
 
@@ -136,9 +129,6 @@ class App extends Component {
   };
 
   render() {
-    if (!this.state.web3) {
-      return <div className="loading-screen">Loading Web3, accounts, and contracts...</div>;
-    }
     return (
       <ThemeProvider theme={this.state.theme}>
         <CssBaseline />
@@ -146,65 +136,93 @@ class App extends Component {
           <Typography variant="h2" component="div" align="center" gutterBottom>
             DApp One Word At A Time
           </Typography>
-          <Box sx={{ my: 4 }}>
-            <Paper elevation={3} xs={9} sx={{ p: 5 }} >
-              <Typography variant="h5" component="div" gutterBottom>
-                Story:
-              </Typography>
-              {this.state.phrase}
-            </Paper>
-          </Box>
-          <Box>
-            {this.state.isProcessingTransaction &&
-              <LinearProgress color="inherit" />
-            }
-          </Box>
-          <Box sx={{ my: 2 }}>
-            <FormControl sx={{ m: 1, minWidth: 450 }}>
-              <InputLabel id="select-account-label">Select Account</InputLabel>
-              <Select
-                labelId="select-account-label"
-                id="select-account"
-                value={this.state.chosenAccount}
-                label="Select Account"
-                onChange={this.handleSelectChange}
-              >
-                {this.state.accounts.map((account, index) =>
-                  <MenuItem value={index} key={account}>{account}</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-            <TextField
-              sx={{ m: 1, minWidth: 200 }}
-              id="new-word-textfield"
-              label="New Word"
-              variant="outlined"
-              value={this.state.textFieldValue}
-              onChange={this.handleTextFieldChange}
-              onKeyDown={(event) => this.handleKeyPress(event, this)}
-              disabled={this.state.isProcessingTransaction}
-            />
-          </Box>
-          <Box sx={{ px: 8 }}>
-            <Typography variant="h6" component="div" align="center" gutterBottom>
-              Transaction History
-            </Typography>
-            <Typography variant="h8" component="div" align="center" gutterBottom>
-              Address - Word
-            </Typography>
-            <List>
-              {this.state.transactionHistory.map((transaction, index) => {
-                return (
-                  <Container key={index}>
-                    <ListItem>
-                      <ListItemText primary={transaction.join(" - ")} />
-                    </ListItem>
-                    {index === this.state.transactionHistory.length - 1 ? null : <Divider variant="middle" />}
+          {
+            this.state.web3 ? (
+              <Container>
+                <Box sx={{ my: 4 }}>
+                  <Paper elevation={3} xs={9} sx={{ p: 5 }} >
+                    <Typography variant="h5" component="div" gutterBottom>
+                      Story:
+                    </Typography>
+                    {this.state.phrase}
+                  </Paper>
+                </Box>
+                <Box>
+                  {this.state.isProcessingTransaction &&
+                    <LinearProgress color="inherit" />
+                  }
+                </Box>
+                <Box sx={{ my: 2 }}>
+                  <FormControl sx={{ m: 1, minWidth: 450 }}>
+                    <InputLabel id="select-account-label">Select Account</InputLabel>
+                    <Select
+                      labelId="select-account-label"
+                      id="select-account"
+                      value={this.state.chosenAccount}
+                      label="Select Account"
+                      onChange={this.handleSelectChange}
+                    >
+                      {this.state.accounts.map((account, index) =>
+                        <MenuItem value={index} key={account}>{account}</MenuItem>
+                      )}
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    sx={{ m: 1, minWidth: 200 }}
+                    id="new-word-textfield"
+                    label="New Word"
+                    variant="outlined"
+                    value={this.state.textFieldValue}
+                    onChange={this.handleTextFieldChange}
+                    onKeyDown={(event) => this.handleKeyPress(event, this)}
+                    disabled={this.state.isProcessingTransaction}
+                  />
+                </Box>
+                <Box sx={{ px: 8 }}>
+                  <Typography variant="h6" component="div" align="center" gutterBottom>
+                    Transaction History
+                  </Typography>
+                  <Typography variant="h8" component="div" align="center" gutterBottom>
+                    Address - Word
+                  </Typography>
+                  <List>
+                    {this.state.transactionHistory.map((transaction, index) => {
+                      return (
+                        <Container key={index}>
+                          <ListItem>
+                            <ListItemText primary={transaction.join(" - ")} />
+                          </ListItem>
+                          {index === this.state.transactionHistory.length - 1 ? null : <Divider variant="middle" />}
+                        </Container>
+                      )
+                    })}
+                  </List>
+                </Box>
+              </Container>
+            ) : (
+              <Container maxWidth="md">
+                {!this.state.web3ConnectionError ? (
+                  <Container>
+                    <Typography variant="h5" component="div" align="center" gutterBottom>
+                      Loading Web3, accounts, and contracts...
+                    </Typography>
+                    <LinearProgress color="inherit" />
                   </Container>
-                )
-              })}
-            </List>
-          </Box>
+                ) : (
+                  <Container>
+                    <Typography variant="h5" component="div" align="center" gutterBottom>
+                      Error connecting to DApp!
+                    </Typography>
+                    <Typography variant="h8" component="div" align="center" gutterBottom>
+                      Make sure you have configured a wallet and you are connected to the right network.
+                    </Typography>
+                    <Typography variant="h8" component="div" align="center" gutterBottom>
+                      Refresh the page to try again.
+                    </Typography>
+                  </Container>
+                )}
+              </Container>)
+          }
         </Container>
       </ThemeProvider>
     );

@@ -27,6 +27,15 @@ jest.mock('./getWeb3', () => {
                     });
                   })
                 };
+              }),
+              getTransactionHistory: jest.fn(() => {
+                return {
+                  call: jest.fn(() => {
+                    return new Promise((resolve) => {
+                      resolve([["0x0"], ["test"]]);
+                    });
+                  })
+                };
               })
             }
           };
