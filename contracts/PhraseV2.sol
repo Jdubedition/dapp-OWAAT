@@ -3,13 +3,17 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract Phrase is OwnableUpgradeable {
+contract PhraseV2 is OwnableUpgradeable {
     string private storedData;
     address[] private transactionHistoryAddresses;
     string[] private transactionHistoryPhrases;
 
     function initialize() public initializer {
         __Ownable_init();
+    }
+
+    function alive() public pure returns (bool) {
+        return true;
     }
 
     function getBalance() public view onlyOwner returns (uint256) {
@@ -19,6 +23,8 @@ contract Phrase is OwnableUpgradeable {
     function deposit() public payable {}
 
     function addWord(string memory word) public payable {
+        require(msg.value == 10000, "You must provide 10,000 wei");
+
         if (bytes(storedData).length == 0) {
             storedData = word;
         } else {

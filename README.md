@@ -55,7 +55,15 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
         />
     ```
 * Add OpenZeppelin upgradeable contracts for truffle `yarn add -D @openzeppelin/truffle-upgrades` (note when compiling or migrating, this will add a .openzeppelin directory to the project and this will be used to link ProxyAdmin and TransparentUpgradableProxy contracts with the Truffle contracts in client/src/contracts directory)
+* Use upgradeable contracts for OpenZeppelin Ownable by installing `yarn add @openzeppelin/contracts-upgradeable` and then `truffle compile --all` to make sure it extracts the upgradeable contracts that are implemented in the truffle contracts
 * Use [CloudFlare Pages](https://developers.cloudflare.com/pages/framework-guides/deploy-a-react-application) React application configuration.  A few settings to point at the `client` directory, run `yarn build`, and use the custom domain of [dapp-owaat.jdubedition.com](https://dapp-owaat.jdubedition.com) and it is all set.
+* Use OpenZeppelin test environment instead of `truffle test` as it is a lot faster and easier to understand.  Add the dependencies to the project `yarn add -D @openzeppelin/test-environment @openzeppelin/test-helpers mocha chai` and add `test-environment.config.js` and set the build directory to `client/src/contracts`.  Update package.json to include:
+  ```
+  "scripts": {
+    "test": "mocha --exit --recursive"
+  }
+  ```
+  and then run `truffle compile` and then `yarn test` to run the tests.  Each time you modify the contracts you will need to run `truffle compile` and then you can run `yarn test` to run the tests.
 
 ## Adding contracts
 * `yarn install` to install dependencies
@@ -70,8 +78,9 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * `yarn install` to install dependencies
 * Add solidity file to ./contracts with suffix designation of next version (e.g. V2 or V3)
 * Add upgradeProxy to ./migrations (uses OpenZeppelin upgradeProxy and new contract version)
-* Update tests associated with contract solidity file and JS file in ./test
-* Run `truffle test` to make sure everything is working as expected
+* Update tests associated with contract JS file in ./test
+* Run `truffle compile` to create new contract artifacts
+* Run `yarn test` to make sure everything is working as expected
 * Compile and Deploy contracts as using `truffle migrate` (use `--network <network>` to deploy to a specific network)
 * Update ./client/src/App.js to import new contract version
 
