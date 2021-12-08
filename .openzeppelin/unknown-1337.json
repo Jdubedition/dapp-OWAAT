@@ -1,108 +1,151 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0xf25186B5081Ff5cE73482AD761DB0eB0d25abfBF",
-    "txHash": "0x7471f0538aea94dfe3bbd6007986734093223ede25630382f2f0d7ed4a848964"
+    "address": "0x75030b806634F80F1cA0a28648e2a9d03Ced8520",
+    "txHash": "0xc2e9cc5a1ed9ea4bd28d456b646a2b4c50801f5e11609c5e63083f09d9c8d2ff"
   },
   "proxies": [
     {
-      "address": "0x20dd96dad0Fd75437d832B1863c11b1eCF6c7a94",
-      "txHash": "0xecd465e94dcf101ebd609ff83db6d0db5b6a65c5b68a14b8ef42dfbc39170c41",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x66601fA641A5c9Ef21587067Fa6D03E99d5c8a0A",
-      "txHash": "0xee9748d9230975ac37a95c6bed74fc8bb3a0bc3eafefbd58836bf454f86355c1",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x445ced5bcFca10738A529a7d3ea0B23E43Ed35b9",
-      "txHash": "0x851f615d6186009888c4b5d8038651d1c14f556157aadd63fdb892414ab282da",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xbD2915A620e7869D7Ce1f49E553E1b36Ba6E32B0",
-      "txHash": "0x33b5a8fd33716a788f5daab76cf06f5ce0067090dcaae4f7ff33862460ea1e97",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x057FC7D35b04f63293538E46304cCaB4726c6d30",
-      "txHash": "0xbe81468daeeb04b3bf72c83d84b54a30dd9a7c44a79f2d348d3938a089b64f65",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x36550dC85fbAdcE36EE6E64e8e6f0F828b649f47",
-      "txHash": "0xf206fd2eb5366eb71b95de5a0c018ab1d74614e4bcd1e1caee8c3418e6253059",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xCE271e3DC8370e6ae704aC8888F92FD9982f177F",
-      "txHash": "0xd29b49294fc925a5de9627233bd20ed71e744531bea383525d527ecd20816982",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xDcc93ec5FF70D0E2F86C023C3234d4b7874E774B",
-      "txHash": "0xefe623a61e446119185957467b690079875fecc725e3adc469487f256f8d97d7",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xfdB547fB971f8496296e89F9Ec13761697dc2f85",
-      "txHash": "0xb1736316dd2b47da5c0a4310648bf7c28c15a59db4eba1d647556d5df675df30",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x1E822f675d1467e44F252834268fd29A73CD8Bc8",
-      "txHash": "0x10dee21874c420cdacdfcec2ab5c15ff0a445ea7d08c8512e8b1a501c701d399",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x8f0483125FCb9aaAEFA9209D8E9d7b9C8B9Fb90F",
-      "txHash": "0xc015422dee7425c71210f19d9cbd0a7e158b8cd8d9ea2287095f6519253e96ef",
+      "address": "0x477f12826533299Dd4df63DbcAAF3b92Ef473C89",
+      "txHash": "0x32af5c6fbc561eff5dbbad083e8255f5dd381e32488440c2ae59de2e59ae522d",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "52c9862174bacf5507270af3dfa8bc4b9477f5c76baf58420a0ef9caca99e1fc": {
-      "address": "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4",
-      "txHash": "0x3026fc68dc5af2e920426fe06bfed50ce6a8c34ac27c03d121f1f8a85de1d5ba",
+    "f2de5a678a4ea996355d3245573945e48a850e6b8153d589dd62faeb6bef84c1": {
+      "address": "0xa7a5054d3C6d5F4680691e1bea9a04d850fFbF49",
+      "txHash": "0x278dbdbb7a59b7fe104f7ad45792c691b67c5ba0b1fc18ba50298b3ad5c342bf",
       "layout": {
         "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
+          {
+            "contract": "Phrase",
+            "label": "storedData",
+            "type": "t_string_storage",
+            "src": "../project:/contracts/Phrase.sol:7"
+          },
+          {
+            "contract": "Phrase",
+            "label": "transactionHistoryAddresses",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "../project:/contracts/Phrase.sol:8"
+          },
+          {
+            "contract": "Phrase",
+            "label": "transactionHistoryPhrases",
+            "type": "t_array(t_string_storage)dyn_storage",
+            "src": "../project:/contracts/Phrase.sol:9"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "2d41efee295de9100d330f3302913b72d77f187c9ed7b3d7541a856c62187df5": {
+      "address": "0x28d69C799171d0021bAa43E7522cD513d89ACB03",
+      "txHash": "0xe16030e8515f4442d8243c6d6372dba02ad474de5572d5e75dc0c26e0e286063",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
           {
             "contract": "PhraseV2",
             "label": "storedData",
             "type": "t_string_storage",
-            "src": "../project:/contracts/Migrations.sol:5"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          }
-        }
-      }
-    },
-    "b0b6b9c876fdb0994c79bb9eb7f73ead51e17c6e57cfe5c351d28d988f021d75": {
-      "address": "0xdF24efd138C1DFb9E73c5EC2bD33Ad6ed7563E13",
-      "txHash": "0x3e6e9c4a6e3e35d10cf5f0fadb2204910a4736f211ec854ad8bdd81b0d876b41",
-      "layout": {
-        "storage": [
-          {
-            "contract": "PhraseV3",
-            "label": "storedData",
-            "type": "t_string_storage",
-            "src": "../project:/contracts/Migrations.sol:5"
+            "src": "../project:/contracts/PhraseV2.sol:7"
           },
           {
-            "contract": "PhraseV3",
+            "contract": "PhraseV2",
             "label": "transactionHistoryAddresses",
             "type": "t_array(t_address)dyn_storage",
-            "src": "../project:/contracts/Migrations.sol:6"
+            "src": "../project:/contracts/PhraseV2.sol:8"
           },
           {
-            "contract": "PhraseV3",
+            "contract": "PhraseV2",
             "label": "transactionHistoryPhrases",
             "type": "t_array(t_string_storage)dyn_storage",
-            "src": "../project:/contracts/Migrations.sol:8"
+            "src": "../project:/contracts/PhraseV2.sol:9"
           }
         ],
         "types": {
@@ -117,46 +160,18 @@
           },
           "t_array(t_string_storage)dyn_storage": {
             "label": "string[]"
-          }
-        }
-      }
-    },
-    "c92a8b4e622e203a36a909005d36b4f09f634309ea84afdf501768c1b280125d": {
-      "address": "0x345cA3e014Aaf5dcA488057592ee47305D9B3e10",
-      "txHash": "0x84879ff7f36e955a56f2e753247743744f2dc6000a7dc776928d8acfa2ae171d",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Phrase",
-            "label": "storedData",
-            "type": "t_string_storage",
-            "src": "../project:/contracts/Migrations.sol:5"
           },
-          {
-            "contract": "Phrase",
-            "label": "transactionHistoryAddresses",
-            "type": "t_array(t_address)dyn_storage",
-            "src": "../project:/contracts/Migrations.sol:20"
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
           },
-          {
-            "contract": "Phrase",
-            "label": "transactionHistoryPhrases",
-            "type": "t_array(t_string_storage)dyn_storage",
-            "src": "../project:/contracts/Migrations.sol:20"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
+          "t_uint256": {
+            "label": "uint256"
           },
-          "t_array(t_address)dyn_storage": {
-            "label": "address[]"
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
           },
-          "t_address": {
-            "label": "address"
-          },
-          "t_array(t_string_storage)dyn_storage": {
-            "label": "string[]"
+          "t_bool": {
+            "label": "bool"
           }
         }
       }

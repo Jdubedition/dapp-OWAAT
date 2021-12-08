@@ -4,7 +4,7 @@ require('dotenv').config({ path: 'client/.env.local' });
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const testAccountPrivateKey = process.env.TEST_ACCOUNT_PRIVATE_KEY;
-const maticVigilID = process.env.MATIC_VIGIL_ID;
+const moralisSpeedyNodeID = process.env.MORALIS_SPEEDY_NODE_ID;
 
 const moleChain = process.env.MOLE_CHAIN;
 
@@ -32,7 +32,7 @@ module.exports = {
       // Register for Matic Vigil ID at https://rpc.maticvigil.com/
       provider: () => new HDWalletProvider({
         privateKeys: [testAccountPrivateKey],
-        providerOrUrl: "https://rpc-mumbai.maticvigil.com/v1/" + maticVigilID
+        providerOrUrl: "https://speedy-nodes-nyc.moralis.io/" + moralisSpeedyNodeID + "/polygon/mumbai"
       }),
       network_id: 80001,
       confirmations: 2,
