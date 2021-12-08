@@ -7,7 +7,7 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * Must have a crypto wallet
 * Connect account to one of the following networks:
   * Polygon Mumbai Test Network
-    * Recommend registering for a free RPC Matic Vigil account at [https://rpc.maticvigil.com/](https://rpc.maticvigil.com/)
+    * Recommend registering for a free RPC Moralis account at [https://moralis.io/](https://moralis.io/)
     * Add OWAAT application to get a free endpoint/ID registered with the network
     * Add the test network RPC endpoint/ID to your wallet
     * Go to Polygon faucet to get MATIC [https://faucet.polygon.technology/](https://faucet.polygon.technology/)

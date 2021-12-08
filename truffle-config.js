@@ -29,7 +29,7 @@ module.exports = {
       chain_id: 6022140761023,
     },
     matic: {
-      // Register for Matic Vigil ID at https://rpc.maticvigil.com/
+      // Register for Moralis Speedy Node ID at https://moralis.io/
       provider: () => new HDWalletProvider({
         privateKeys: [testAccountPrivateKey],
         providerOrUrl: "https://speedy-nodes-nyc.moralis.io/" + moralisSpeedyNodeID + "/polygon/mumbai"
