@@ -95,10 +95,10 @@ class App extends Component {
   };
 
   addWord = async () => {
-    const { accounts, phraseContract, chosenAccount } = this.state;
+    const { accounts, phraseContract, chosenAccount, web3 } = this.state;
 
     // Submit transaction to add new word
-    await phraseContract.methods.addWord(this.state.textFieldValue).send({ from: accounts[chosenAccount] });
+    await phraseContract.methods.addWord(this.state.textFieldValue).send({ value: web3.utils.toWei('0.01', 'ether'), from: accounts[chosenAccount] });
 
     this.updateDAppToChain();
     this.setState({ textFieldValue: "" });

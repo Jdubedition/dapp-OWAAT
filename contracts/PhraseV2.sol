@@ -20,10 +20,18 @@ contract PhraseV2 is OwnableUpgradeable {
         return address(this).balance;
     }
 
+    function ownerWithdraw() public onlyOwner {
+        (bool success, ) = owner().call{value: address(this).balance}("");
+        require(success, "ownerWithdraw failed");
+    }
+
     function deposit() public payable {}
 
     function addWord(string memory word) public payable {
-        require(msg.value == 10000, "You must provide 10,000 wei");
+        require(
+            msg.value == 0.01 ether,
+            "You must provide 0.01 ether to add a word"
+        );
 
         if (bytes(storedData).length == 0) {
             storedData = word;
