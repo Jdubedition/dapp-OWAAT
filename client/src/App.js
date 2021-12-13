@@ -15,13 +15,19 @@ import {
   ListItemText,
   Divider,
   LinearProgress,
+  Autocomplete,
+  Grid,
+  Tooltip,
 } from "@mui/material";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Phrase from "./contracts/Phrase.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
+
+const filter = createFilterOptions();
 
 class App extends Component {
   state = {
@@ -41,6 +47,11 @@ class App extends Component {
     maxHistory: 15,
     transactionHistoryIntervalID: null,
     web3ConnectionError: false,
+    stories: [{ title: "Test" }],
+    value: { title: "Test" },
+    addWordTitlePrice: 0.02,
+    addWordStoryPrice: 0.01,
+    newStoryPrice: 0.05,
   };
 
   componentDidMount = async () => {
@@ -95,10 +106,10 @@ class App extends Component {
   };
 
   addWord = async () => {
-    const { accounts, phraseContract, chosenAccount, web3 } = this.state;
+    const { accounts, phraseContract, chosenAccount, web3, addWordStoryPrice } = this.state;
 
     // Submit transaction to add new word
-    await phraseContract.methods.addWord(this.state.textFieldValue).send({ value: web3.utils.toWei('0.01', 'ether'), from: accounts[chosenAccount] });
+    await phraseContract.methods.addWord(this.state.textFieldValue).send({ value: web3.utils.toWei(addWordStoryPrice.toString(), 'ether'), from: accounts[chosenAccount] });
 
     this.updateDAppToChain();
     this.setState({ textFieldValue: "" });
@@ -128,6 +139,15 @@ class App extends Component {
     this.setState({ chosenAccount: event.target.value });
   };
 
+  setValue = (value) => {
+    // TODO call to blockchain to set value before state change
+    const stories = this.state.stories;
+    if (stories.indexOf(value) === -1) {
+      stories.push(value);
+    }
+    this.setState({ value, stories });
+  }
+
   render() {
     return (
       <ThemeProvider theme={this.state.theme}>
@@ -139,11 +159,81 @@ class App extends Component {
           {
             this.state.web3 ? (
               <Container>
+                <Grid container spacing={2}>
+                  <Grid item xs={6} md={8}>
+                    <Autocomplete
+                      value={this.state.value}
+                      isOptionEqualToValue={(option, value) => option.title === value.title}
+                      // disablePortal
+                      id="combo-box-demo"
+                      options={this.state.stories}
+                      selectOnFocus
+                      clearOnBlur
+                      handleHomeEndKeys
+                      onChange={(_, newValue) => {
+                        if (newValue === null) return;
+                        if (typeof newValue === 'string') {
+                          this.setValue({
+                            title: newValue,
+                          });
+                        } else if (newValue && newValue.inputValue) {
+                          // Create a new value from the user input
+                          this.setValue({
+                            title: newValue.inputValue,
+                          });
+                        } else {
+                          this.setValue(newValue);
+                        }
+                      }}
+                      renderInput={(params) => <TextField {...params} label="Story" />}
+                      renderOption={(props, option) => <li {...props}>{option.title}</li>}
+                      getOptionLabel={(option) => {
+                        // Value selected with enter, right from the input
+                        if (typeof option === 'string') {
+                          return option;
+                        }
+                        // Add "xxx" option created dynamically
+                        if (option.inputValue) {
+                          return option.inputValue;
+                        }
+                        // Regular option
+                        return option.title;
+                      }}
+                      filterOptions={(options, params) => {
+                        const filtered = filter(options, params);
+
+                        const { inputValue } = params;
+                        // Suggest the creation of a new value
+                        const isExisting = options.some((option) => inputValue === option.title);
+                        if (inputValue !== '' && !isExisting && inputValue.indexOf(' ') === -1) {
+                          filtered.unshift({
+                            inputValue,
+                            title: `Create New Story (${this.state.newStoryPrice} ether): "${inputValue}"`,
+                          });
+                        }
+
+                        return filtered;
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6} md={4}>
+                    <Tooltip title={this.state.addWordTitlePrice + " ether"}>
+                      <TextField
+                        sx={{ width: "100%" }}
+                        id="add-word-title-textfield"
+                        label={`Add Word To Title`}
+                        variant="outlined"
+                      // TODO need to implement these functions
+                      // value={this.state.textFieldValue}
+                      // onChange={this.handleTextFieldChange}
+                      // onKeyDown={(event) => this.handleKeyPress(event, this)}
+                      // disabled={this.state.isProcessingTransaction}
+                      />
+                    </Tooltip>
+                  </Grid>
+                </Grid>
                 <Box sx={{ my: 4 }}>
                   <Paper elevation={3} xs={9} sx={{ p: 5 }} >
-                    <Typography variant="h5" component="div" gutterBottom>
-                      Story:
-                    </Typography>
                     {this.state.phrase}
                   </Paper>
                 </Box>
@@ -152,33 +242,39 @@ class App extends Component {
                     <LinearProgress color="inherit" />
                   }
                 </Box>
-                <Box sx={{ my: 2 }}>
-                  <FormControl sx={{ m: 1, minWidth: 450 }}>
-                    <InputLabel id="select-account-label">Select Account</InputLabel>
-                    <Select
-                      labelId="select-account-label"
-                      id="select-account"
-                      value={this.state.chosenAccount}
-                      label="Select Account"
-                      onChange={this.handleSelectChange}
-                    >
-                      {this.state.accounts.map((account, index) =>
-                        <MenuItem value={index} key={account}>{account}</MenuItem>
-                      )}
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    sx={{ m: 1, minWidth: 200 }}
-                    id="new-word-textfield"
-                    label="New Word"
-                    variant="outlined"
-                    value={this.state.textFieldValue}
-                    onChange={this.handleTextFieldChange}
-                    onKeyDown={(event) => this.handleKeyPress(event, this)}
-                    disabled={this.state.isProcessingTransaction}
-                  />
-                </Box>
-                <Box sx={{ px: 8 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6} md={7}>
+                    <FormControl sx={{ width: "100%" }}>
+                      <InputLabel id="select-account-label">Select Account</InputLabel>
+                      <Select
+                        labelId="select-account-label"
+                        id="select-account"
+                        value={this.state.chosenAccount}
+                        label="Select Account"
+                        onChange={this.handleSelectChange}
+                      >
+                        {this.state.accounts.map((account, index) =>
+                          <MenuItem value={index} key={account}>{account}</MenuItem>
+                        )}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={6} md={5}>
+                    <Tooltip title={this.state.addWordStoryPrice + " ether"}>
+                      <TextField
+                        sx={{ width: "100%" }}
+                        id="add-word-story-textfield"
+                        label="Add Word To Story"
+                        variant="outlined"
+                        value={this.state.textFieldValue}
+                        onChange={this.handleTextFieldChange}
+                        onKeyDown={(event) => this.handleKeyPress(event, this)}
+                        disabled={this.state.isProcessingTransaction}
+                      />
+                    </Tooltip>
+                  </Grid>
+                </Grid>
+                <Box sx={{ px: 8, my: 1 }}>
                   <Typography variant="h6" component="div" align="center" gutterBottom>
                     Transaction History
                   </Typography>
@@ -188,12 +284,12 @@ class App extends Component {
                   <List>
                     {this.state.transactionHistory.map((transaction, index) => {
                       return (
-                        <Container key={index}>
+                        <Box key={index}>
                           <ListItem>
                             <ListItemText primary={transaction.join(" - ")} />
                           </ListItem>
                           {index === this.state.transactionHistory.length - 1 ? null : <Divider variant="middle" />}
-                        </Container>
+                        </Box>
                       )
                     })}
                   </List>
@@ -202,14 +298,14 @@ class App extends Component {
             ) : (
               <Container maxWidth="md">
                 {!this.state.web3ConnectionError ? (
-                  <Container>
+                  <Box>
                     <Typography variant="h5" component="div" align="center" gutterBottom>
                       Loading Web3, accounts, and contracts...
                     </Typography>
                     <LinearProgress color="inherit" />
-                  </Container>
+                  </Box>
                 ) : (
-                  <Container>
+                  <Box>
                     <Typography variant="h5" component="div" align="center" gutterBottom>
                       Error connecting to DApp!
                     </Typography>
@@ -219,12 +315,12 @@ class App extends Component {
                     <Typography variant="h8" component="div" align="center" gutterBottom>
                       Refresh the page to try again.
                     </Typography>
-                  </Container>
+                  </Box>
                 )}
               </Container>)
           }
         </Container>
-      </ThemeProvider>
+      </ThemeProvider >
     );
   }
 }

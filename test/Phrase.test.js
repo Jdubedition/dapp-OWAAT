@@ -4,7 +4,7 @@ const [owner] = accounts;
 
 const { expect } = require('chai');
 
-const Phrase = contract.fromArtifact('PhraseV2'); // Loads a compiled contract
+const Phrase = contract.fromArtifact('PhraseV3'); // Loads a compiled contract
 
 const fromWei = web3.utils.fromWei;
 const toWei = web3.utils.toWei;
@@ -20,22 +20,17 @@ describe('Phrase', function () {
         expect(await this.phrase.alive()).to.equal(true);
     });
 
-    it('should deposit amount', async function () {
-        await this.phrase.deposit({ value: 1000, from: owner });
-        expect((await this.phrase.getBalance({ from: owner })).toString()).to.equal('1000');
-    });
-
     it('should addWord', async function () {
         await this.phrase.addWord('test', { value: toWei('0.01', 'ether'), from: owner });
         expect((await this.phrase.getBalance({ from: owner })).toString()).to.equal(toWei('0.01', 'ether'));
-        expect(await this.phrase.getPhrase()).to.equal('Once upon a time test');
+        expect(await this.phrase.getPhrase()).to.equal('test');
     });
 
     it('should addWord twice', async function () {
         await this.phrase.addWord('test', { value: toWei('0.01', 'ether') });
         await this.phrase.addWord('this', { value: toWei('0.01', 'ether') });
         expect((await this.phrase.getBalance({ from: owner })).toString()).to.equal(toWei('0.02', 'ether'));
-        expect(await this.phrase.getPhrase()).to.equal('Once upon a time test this');
+        expect(await this.phrase.getPhrase()).to.equal('test this');
     });
 
     it('getBalance from non-owner should error', async function () {
@@ -62,4 +57,10 @@ describe('Phrase', function () {
 
         expect(fromWei(toBN(balanceAfterWithdraw).add(ownerWithDrawPrice))).to.equal(fromWei(toBN(balanceBeforeWithdraw).add(toBN(amountToSend))));
     });
+
+    it('addWord should not accept a zero or over 42 character length word', async function () {
+        await expectRevert(this.phrase.addWord('', { value: toWei('0.01', 'ether') }), 'word must be between 1 than 42 characters, inclusive');
+        await expectRevert(this.phrase.addWord('a'.repeat(43), { value: toWei('0.01', 'ether') }), 'word must be between 1 than 42 characters, inclusive');
+    });
+
 });
