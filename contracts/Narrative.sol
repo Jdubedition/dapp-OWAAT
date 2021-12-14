@@ -10,9 +10,9 @@ contract Narrative is OwnableUpgradeable {
 
     struct Story {
         string title;
-        string story;
+        string body;
         uint256 wordCount;
-        mapping(uint256 => address) contributors;
+        mapping(uint256 => address) wordContributors;
         mapping(uint256 => string) words;
     }
 
@@ -41,25 +41,25 @@ contract Narrative is OwnableUpgradeable {
         view
         returns (
             string memory title,
-            string memory story,
+            string memory body,
             uint256 wordCount,
-            address[] memory contributors,
+            address[] memory wordContributors,
             string[] memory words
         )
     {
         require(id <= numStories);
         title = stories[id].title;
-        story = stories[id].story;
+        body = stories[id].body;
         wordCount = stories[id].wordCount;
 
         words = new string[](wordCount);
-        contributors = new address[](wordCount);
+        wordContributors = new address[](wordCount);
         for (uint256 i = 0; i < wordCount; i++) {
-            contributors[i] = stories[id].contributors[i];
+            wordContributors[i] = stories[id].wordContributors[i];
             words[i] = stories[id].words[i];
         }
 
-        return (title, story, wordCount, contributors, words);
+        return (title, body, wordCount, wordContributors, words);
     }
 
     function newStory(string memory word) public payable {
@@ -87,7 +87,10 @@ contract Narrative is OwnableUpgradeable {
         storyToUpdate.title = string(
             abi.encodePacked(storyToUpdate.title, " ", word)
         );
-        updateStoryHistory(storyID, word);
+
+        storyToUpdate.wordContributors[storyToUpdate.wordCount] = msg.sender;
+        storyToUpdate.words[storyToUpdate.wordCount] = word;
+        storyToUpdate.wordCount += 1;
     }
 
     function deposit() public payable {}
@@ -111,27 +114,23 @@ contract Narrative is OwnableUpgradeable {
             "You must provide 0.01 ether to add a word"
         );
 
-        updateStoryHistory(storyID, word);
+        Story storage storyToUpdate = stories[storyID];
+
+        if (bytes(storyToUpdate.body).length == 0) {
+            storyToUpdate.body = word;
+        } else {
+            storyToUpdate.body = string(
+                abi.encodePacked(storyToUpdate.body, " ", word)
+            );
+        }
+
+        storyToUpdate.wordContributors[storyToUpdate.wordCount] = msg.sender;
+        storyToUpdate.words[storyToUpdate.wordCount] = word;
+        storyToUpdate.wordCount += 1;
     }
 
     function validateWord(string memory word) private pure {
         require(bytes(word).length > 0);
         require(bytes(word).length <= 42);
-    }
-
-    function updateStoryHistory(uint256 storyID, string memory word) private {
-        Story storage storyToUpdate = stories[storyID];
-
-        if (bytes(storyToUpdate.story).length == 0) {
-            storyToUpdate.story = word;
-        } else {
-            storyToUpdate.story = string(
-                abi.encodePacked(storyToUpdate.story, " ", word)
-            );
-        }
-
-        storyToUpdate.contributors[storyToUpdate.wordCount] = msg.sender;
-        storyToUpdate.words[storyToUpdate.wordCount] = word;
-        storyToUpdate.wordCount += 1;
     }
 }
