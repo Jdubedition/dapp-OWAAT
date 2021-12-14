@@ -46,49 +46,57 @@ describe('Narrative', function () {
     });
 
     it('should add word to story', async function () {
-        await this.narrative.addWordToStory(0, 'test', { value: toWei('0.01', 'ether'), from: owner });
+        await this.narrative.addWordToStory(0, 'test', { value: toWei('0.01', 'ether'), from: accounts[1] });
         const story = await this.narrative.getStory(0);
         expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.01', 'ether'));
         expect(story.title).to.equal('The');
         expect(story.words.length).to.equal(1);
         expect(story.words[0]).to.equal('test');
+        expect(story.contributors.length).to.equal(1);
+        expect(story.contributors[0]).to.equal(accounts[1]);
     });
 
-    // it('should addWord twice', async function () {
-    //     await this.narrative.addWord('test', { value: toWei('0.01', 'ether') });
-    //     await this.narrative.addWord('this', { value: toWei('0.01', 'ether') });
-    //     expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.02', 'ether'));
-    //     expect(await this.narrative.getPhrase()).to.equal('test this');
-    // });
+    it('should add word to title', async function () {
+        await this.narrative.addWordToTitle(0, 'test', { value: toWei('0.02', 'ether'), from: accounts[1] });
+        const story = await this.narrative.getStory(0);
+        expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.02', 'ether'));
+        expect(story.title).to.equal('The test');
+        expect(story.words.length).to.equal(1);
+        expect(story.words[0]).to.equal('test');
+        expect(story.contributors.length).to.equal(1);
+        expect(story.contributors[0]).to.equal(accounts[1]);
+    })
 
-    // it('getBalance from non-owner should error', async function () {
-    //     await expectRevert(this.narrative.getBalance({ from: accounts[1] }), 'caller is not the owner');
-    // });
+    it('should addWord twice', async function () {
+        await this.narrative.addWordToStory(0, 'test', { value: toWei('0.01', 'ether') });
+        await this.narrative.addWordToStory(0, 'this', { value: toWei('0.01', 'ether') });
+        expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.02', 'ether'));
+        expect((await this.narrative.getStory(0)).story).to.equal('test this');
+    });
 
-    // it('ownerWithdraw from non-owner should error', async function () {
-    //     await expectRevert(this.narrative.ownerWithdraw({ from: accounts[1] }), 'caller is not the owner');
-    // });
+    it('getBalance from non-owner should error', async function () {
+        await expectRevert(this.narrative.getBalance({ from: accounts[1] }), 'caller is not the owner');
+    });
 
-    // it('ownerWithdraw works to receive contract balance', async function () {
-    //     const amountToSend = toWei('0.01', 'ether');
+    it('ownerWithdraw from non-owner should error', async function () {
+        await expectRevert(this.narrative.ownerWithdraw({ from: accounts[1] }), 'caller is not the owner');
+    });
 
-    //     // Another account uses addWord function and deposit some ether
-    //     await this.narrative.addWord('test', { value: amountToSend, from: accounts[1] });
+    it('ownerWithdraw works to receive contract balance', async function () {
+        const amountToSend = toWei('0.01', 'ether');
 
-    //     // Owner withdraws balance from contract
-    //     const balanceBeforeWithdraw = await web3.eth.getBalance(owner);
-    //     await this.narrative.ownerWithdraw({ from: owner });
-    //     const balanceAfterWithdraw = await web3.eth.getBalance(owner);
+        // Another account uses addWord function and deposit some ether
+        await this.narrative.addWordToStory(0, 'test', { value: amountToSend, from: accounts[1] });
 
-    //     // Calculate ownerWithdraw price
-    //     const ownerWithDrawPrice = toBN(balanceBeforeWithdraw).sub(toBN(balanceAfterWithdraw)).add(toBN(amountToSend));
+        // Owner withdraws balance from contract
+        const balanceBeforeWithdraw = await web3.eth.getBalance(owner);
+        await this.narrative.ownerWithdraw({ from: owner });
+        const balanceAfterWithdraw = await web3.eth.getBalance(owner);
 
-    //     expect(fromWei(toBN(balanceAfterWithdraw).add(ownerWithDrawPrice))).to.equal(fromWei(toBN(balanceBeforeWithdraw).add(toBN(amountToSend))));
-    // });
+        // Calculate ownerWithdraw price
+        const ownerWithDrawPrice = toBN(balanceBeforeWithdraw).sub(toBN(balanceAfterWithdraw)).add(toBN(amountToSend));
 
-    // it('addWord should not accept a zero or over 42 character length word', async function () {
-    //     await expectRevert(this.narrative.addWord('', { value: toWei('0.01', 'ether') }), 'word must be between 1 than 42 characters, inclusive');
-    //     await expectRevert(this.narrative.addWord('a'.repeat(43), { value: toWei('0.01', 'ether') }), 'word must be between 1 than 42 characters, inclusive');
-    // });
+        expect(fromWei(toBN(balanceAfterWithdraw).add(ownerWithDrawPrice))).to.equal(fromWei(toBN(balanceBeforeWithdraw).add(toBN(amountToSend))));
+    });
 
 });

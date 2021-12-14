@@ -23,11 +23,6 @@ contract Narrative is OwnableUpgradeable {
         numStories = 1;
     }
 
-    function validateWord(string memory word) private pure {
-        require(bytes(word).length > 0);
-        require(bytes(word).length <= 42);
-    }
-
     function getStoryTitles() public view returns (string[2][] memory) {
         string[2][] memory titles = new string[2][](numStories);
         for (uint256 i = 0; i < numStories; i++) {
@@ -78,6 +73,23 @@ contract Narrative is OwnableUpgradeable {
         numStories += 1;
     }
 
+    function addWordToTitle(uint256 storyID, string memory word)
+        public
+        payable
+    {
+        validateWord(word);
+        require(
+            msg.value == 0.02 ether,
+            "You must provide 0.02 ether to add a word"
+        );
+        validateWord(word);
+        Story storage storyToUpdate = stories[storyID];
+        storyToUpdate.title = string(
+            abi.encodePacked(storyToUpdate.title, " ", word)
+        );
+        updateStoryHistory(storyID, word);
+    }
+
     function deposit() public payable {}
 
     function getBalance() public view onlyOwner returns (uint256) {
@@ -93,15 +105,21 @@ contract Narrative is OwnableUpgradeable {
         public
         payable
     {
-        require(
-            bytes(word).length > 0 && bytes(word).length <= 42,
-            "word must be between 1 than 42 characters, inclusive"
-        );
+        validateWord(word);
         require(
             msg.value == 0.01 ether,
             "You must provide 0.01 ether to add a word"
         );
 
+        updateStoryHistory(storyID, word);
+    }
+
+    function validateWord(string memory word) private pure {
+        require(bytes(word).length > 0);
+        require(bytes(word).length <= 42);
+    }
+
+    function updateStoryHistory(uint256 storyID, string memory word) private {
         Story storage storyToUpdate = stories[storyID];
 
         if (bytes(storyToUpdate.story).length == 0) {
@@ -116,16 +134,4 @@ contract Narrative is OwnableUpgradeable {
         storyToUpdate.words[storyToUpdate.wordCount] = word;
         storyToUpdate.wordCount += 1;
     }
-
-    // function getPhrase() public view returns (string memory) {
-    //     return storedData;
-    // }
-
-    // function getTransactionHistory()
-    //     public
-    //     view
-    //     returns (address[] memory, string[] memory)
-    // {
-    //     return (transactionHistoryAddresses, transactionHistoryPhrases);
-    // }
 }
