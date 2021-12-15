@@ -18,9 +18,13 @@ contract Narrative is OwnableUpgradeable {
 
     function initialize() public initializer {
         __Ownable_init();
-        Story storage nar = stories[numStories];
-        nar.title = "The";
+        Story storage storyToUpdate = stories[0];
+        storyToUpdate.title = "The";
         numStories = 1;
+
+        storyToUpdate.wordContributors[storyToUpdate.wordCount] = owner();
+        storyToUpdate.words[storyToUpdate.wordCount] = "The";
+        storyToUpdate.wordCount += 1;
     }
 
     function getStoryTitles() public view returns (string[2][] memory) {
@@ -68,9 +72,13 @@ contract Narrative is OwnableUpgradeable {
             msg.value == 0.1 ether,
             "You must provide 0.1 ether to create a new story"
         );
-        Story storage nar = stories[numStories];
-        nar.title = word;
+        Story storage storyToUpdate = stories[numStories];
+        storyToUpdate.title = word;
         numStories += 1;
+
+        storyToUpdate.wordContributors[storyToUpdate.wordCount] = msg.sender;
+        storyToUpdate.words[storyToUpdate.wordCount] = word;
+        storyToUpdate.wordCount += 1;
     }
 
     function addWordToTitle(uint256 storyID, string memory word)
@@ -104,7 +112,7 @@ contract Narrative is OwnableUpgradeable {
         require(success, "ownerWithdraw failed");
     }
 
-    function addWordToStory(uint256 storyID, string memory word)
+    function addWordToBody(uint256 storyID, string memory word)
         public
         payable
     {

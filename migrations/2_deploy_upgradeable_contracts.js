@@ -1,7 +1,7 @@
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
-const Phrase = artifacts.require('Phrase');
+const Narrative = artifacts.require('Narrative');
 
 module.exports = async function (deployer) {
-    await deployProxy(Phrase, [], { deployer });
+    await deployProxy(Narrative, [], { deployer });
 };

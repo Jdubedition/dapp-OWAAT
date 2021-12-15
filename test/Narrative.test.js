@@ -46,15 +46,18 @@ describe('Narrative', function () {
     });
 
     it('should add word to story', async function () {
-        await this.narrative.addWordToStory(0, 'test', { value: toWei('0.01', 'ether'), from: accounts[1] });
+        await this.narrative.addWordToBody(0, 'test', { value: toWei('0.01', 'ether'), from: accounts[1] });
         const story = await this.narrative.getStory(0);
         expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.01', 'ether'));
         expect(story.title).to.equal('The');
         expect(story.body).to.equal('test');
-        expect(story.words.length).to.equal(1);
-        expect(story.words[0]).to.equal('test');
-        expect(story.wordContributors.length).to.equal(1);
-        expect(story.wordContributors[0]).to.equal(accounts[1]);
+        expect(story.wordCount.toString()).to.equal('2');
+        expect(story.words.length).to.equal(2);
+        expect(story.words[0]).to.equal('The');
+        expect(story.words[1]).to.equal('test');
+        expect(story.wordContributors.length).to.equal(2);
+        expect(story.wordContributors[0]).to.equal(owner);
+        expect(story.wordContributors[1]).to.equal(accounts[1]);
     });
 
     it('should add word to title', async function () {
@@ -63,15 +66,18 @@ describe('Narrative', function () {
         expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.02', 'ether'));
         expect(story.title).to.equal('The test');
         expect(story.body).to.equal('');
-        expect(story.words.length).to.equal(1);
-        expect(story.words[0]).to.equal('test');
-        expect(story.wordContributors.length).to.equal(1);
-        expect(story.wordContributors[0]).to.equal(accounts[1]);
+        expect(story.wordCount.toString()).to.equal('2');
+        expect(story.words.length).to.equal(2);
+        expect(story.words[0]).to.equal('The');
+        expect(story.words[1]).to.equal('test');
+        expect(story.wordContributors.length).to.equal(2);
+        expect(story.wordContributors[0]).to.equal(owner);
+        expect(story.wordContributors[1]).to.equal(accounts[1]);
     })
 
     it('should addWord twice', async function () {
-        await this.narrative.addWordToStory(0, 'test', { value: toWei('0.01', 'ether') });
-        await this.narrative.addWordToStory(0, 'this', { value: toWei('0.01', 'ether') });
+        await this.narrative.addWordToBody(0, 'test', { value: toWei('0.01', 'ether') });
+        await this.narrative.addWordToBody(0, 'this', { value: toWei('0.01', 'ether') });
         expect((await this.narrative.getBalance({ from: owner })).toString()).to.equal(toWei('0.02', 'ether'));
         expect((await this.narrative.getStory(0)).body).to.equal('test this');
     });
@@ -88,7 +94,7 @@ describe('Narrative', function () {
         const amountToSend = toWei('0.01', 'ether');
 
         // Another account uses addWord function and deposit some ether
-        await this.narrative.addWordToStory(0, 'test', { value: amountToSend, from: accounts[1] });
+        await this.narrative.addWordToBody(0, 'test', { value: amountToSend, from: accounts[1] });
 
         // Owner withdraws balance from contract
         const balanceBeforeWithdraw = await web3.eth.getBalance(owner);
