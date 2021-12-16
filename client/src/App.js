@@ -54,7 +54,7 @@ class App extends Component {
     storyAttributes: null,
     addWordTitlePrice: 0.02,
     addWordStoryPrice: 0.01,
-    newStoryPrice: 0.1,
+    addStoryPrice: 0.10,
   };
 
   componentDidMount = async () => {
@@ -128,28 +128,24 @@ class App extends Component {
 
     if (eventTargetID === "add-word-body-textfield") {
       // Submit transaction to add new word to body of story
-      await narrativeContract.methods.addWordToBody(
-        chosenStoryID,
-        this.state.bodyTextFieldValue).send(
-          {
-            value: web3.utils.toWei(addWordStoryPrice.toString(), 'ether'),
-            from: accounts[chosenAccount]
-          }
-        );
+      await narrativeContract.methods.addWordToBody(chosenStoryID, this.state.bodyTextFieldValue).send(
+        {
+          value: web3.utils.toWei(addWordStoryPrice.toString(), 'ether'),
+          from: accounts[chosenAccount]
+        }
+      );
 
       this.updateStoryToMatchBlockchain();
     }
 
     if (eventTargetID === "add-word-title-textfield") {
       // Submit transaction to add new word to title of story
-      await narrativeContract.methods.addWordToTitle(
-        chosenStoryID,
-        this.state.titleTextFieldValue).send(
-          {
-            value: web3.utils.toWei(addWordTitlePrice.toString(), 'ether'),
-            from: accounts[chosenAccount]
-          }
-        );
+      await narrativeContract.methods.addWordToTitle(chosenStoryID, this.state.titleTextFieldValue).send(
+        {
+          value: web3.utils.toWei(addWordTitlePrice.toString(), 'ether'),
+          from: accounts[chosenAccount]
+        }
+      );
 
       await this.updateStoryToMatchBlockchain();
       const story = await narrativeContract.methods.getStory(chosenStoryID).call();
@@ -200,19 +196,31 @@ class App extends Component {
   };
 
   setStoryAttributes = async (storyAttributes) => {
-    let isExistingStory = false;
+    const {
+      narrativeContract,
+      web3,
+      addStoryPrice,
+      accounts,
+      chosenAccount,
+    } = this.state;
     const stories = this.state.stories.map((s) => {
-      if (s.id === this.state.chosenStoryID.toString()) {
-        isExistingStory = true;
+      if (storyAttributes.id !== undefined && s.id === storyAttributes.id) {
         return { id: s.id, title: storyAttributes.title };
       }
       return s;
     });
-    if (!isExistingStory) {
-      // TODO call to blockchain to set value before state change
+
+    if (storyAttributes.id === undefined) {
+      await narrativeContract.methods.newStory(storyAttributes.title).send(
+        {
+          value: web3.utils.toWei(addStoryPrice.toString(), 'ether'),
+          from: accounts[chosenAccount]
+        }
+      );
+      storyAttributes.id = stories.length.toString();
       stories.push(storyAttributes);
     }
-    this.setState({ storyAttributes, stories });
+    this.setState({ storyAttributes, stories, chosenStoryID: storyAttributes.id }, this.updateStoryToMatchBlockchain);
   }
 
   render() {
@@ -254,7 +262,6 @@ class App extends Component {
                       renderInput={(params) => <TextField {...params} label="Story" />}
                       renderOption={(props, option) => <li {...props}>{option.title}</li>}
                       getOptionLabel={(option) => {
-                        // console.log('getOptionLabel', option);
                         // Value selected with enter, right from the input
                         if (typeof option === 'string') {
                           return option;
@@ -267,7 +274,6 @@ class App extends Component {
                         return option.title;
                       }}
                       filterOptions={(options, params) => {
-                        // console.log('filterOptions', options, params);
                         const filtered = filter(options, params);
 
                         const { inputValue } = params;
@@ -276,7 +282,7 @@ class App extends Component {
                         if (inputValue !== '' && !isExisting && inputValue.indexOf(' ') === -1) {
                           filtered.unshift({
                             inputValue,
-                            title: `Create New Story (${this.state.newStoryPrice} ether): "${inputValue}"`,
+                            title: `Create New Story (${this.state.addStoryPrice} ether): "${inputValue}"`,
                           });
                         }
 

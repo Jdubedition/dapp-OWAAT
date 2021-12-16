@@ -112,10 +112,7 @@ contract Narrative is OwnableUpgradeable {
         require(success, "ownerWithdraw failed");
     }
 
-    function addWordToBody(uint256 storyID, string memory word)
-        public
-        payable
-    {
+    function addWordToBody(uint256 storyID, string memory word) public payable {
         validateWord(word);
         require(
             msg.value == 0.01 ether,
