@@ -95,3 +95,8 @@ This is a decentralized application (DApp) that demonstrates a simple implementa
 * [Ethereum](https://ethereum.org/en/developers/docs/)
 * [Truffle](https://www.trufflesuite.com/docs/truffle/overview)
 * [OpenZeppelin](https://docs.openzeppelin.com/learn/)
+
+## Development TODO
+* Set a base price for up to 13 characters and add a price per character for each additional character
+* Maybe add price paid for the word to the transaction history section of the client
+* Add more client tests
