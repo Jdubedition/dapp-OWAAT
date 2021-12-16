@@ -19,6 +19,11 @@
       "address": "0xdF24efd138C1DFb9E73c5EC2bD33Ad6ed7563E13",
       "txHash": "0x09a3cb92c8b235d010c369df1eb844678cd7894a1f3f697542024e5a1add2d26",
       "kind": "transparent"
+    },
+    {
+      "address": "0x618dD5bF85624d50039AabB1beD6111007cc7354",
+      "txHash": "0x680923923649f57c133e50a174885eb697bd00c662aa0bab5c133033647f5036",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -176,6 +181,110 @@
           },
           "t_uint256": {
             "label": "uint256"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "0388c5f9380868b55b045f0a7d900033074498b41b24a9e71cbb4773c74e32c6": {
+      "address": "0xC89C8D00c88b60554b532F8184801cf46b3AF2F7",
+      "txHash": "0x76c6bd27a5cf3f43ae31e83d8bc485c4775613b479bb7a9b0ffc25ffed3de378",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
+          {
+            "contract": "Narrative",
+            "label": "numStories",
+            "type": "t_uint256",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:11"
+          },
+          {
+            "contract": "Narrative",
+            "label": "stories",
+            "type": "t_mapping(t_uint256,t_struct(Story)446_storage)",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:12"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_uint256,t_struct(Story)446_storage)": {
+            "label": "mapping(uint256 => struct Narrative.Story)"
+          },
+          "t_struct(Story)446_storage": {
+            "label": "struct Narrative.Story",
+            "members": [
+              {
+                "label": "title",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "body",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "wordCount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "wordContributors",
+                "type": "t_mapping(t_uint256,t_address)"
+              },
+              {
+                "label": "words",
+                "type": "t_mapping(t_uint256,t_string_storage)"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
           },
           "t_array(t_uint256)50_storage": {
             "label": "uint256[50]"
