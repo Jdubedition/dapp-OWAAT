@@ -1,8 +1,8 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0x943926cbB07448759c15fAFbA392F5A25590279E",
-    "txHash": "0xe7e0fae3bb768702658fec63845c7c8f286250513908f0f0686afd1d7e98148e"
+    "address": "0x83cEb6A4cB3f5784c3a012a22456Cd9aFbe082a8",
+    "txHash": "0x5a61bd7518e744edde01544e884cf16389845d9963f064ab9c3515fb4dcbb7f1"
   },
   "proxies": [
     {
@@ -13,6 +13,11 @@
     {
       "address": "0xa8e99A66c8735104b87fc61ae8E823e1a31A19EB",
       "txHash": "0x695961a030c6e34370a5d4fcda4f28b58e39759ef2741dc411ec18b50cb8fc43",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x31F3159477962f2DE37b0e97cCf29bEC61dC8d36",
+      "txHash": "0x751f275bc064653d2c9c2e5a86fb5944ff8d7dd0eb42bebff416bbac3c31fbdb",
       "kind": "transparent"
     }
   ],
@@ -182,8 +187,8 @@
       }
     },
     "0388c5f9380868b55b045f0a7d900033074498b41b24a9e71cbb4773c74e32c6": {
-      "address": "0xb364C1e231BC453a800A77AC91f7f1FfFb693428",
-      "txHash": "0x4570e6f6dde9d9f935c1b0c1199f567250dc93f87e253e2149e36c8c64f444a2",
+      "address": "0x445ced5bcFca10738A529a7d3ea0B23E43Ed35b9",
+      "txHash": "0x884f8e082ce67a57da5f9c33cc92a43f4498a8f70440a46d3d89bdfb392e9828",
       "layout": {
         "storage": [
           {
@@ -220,23 +225,23 @@
             "contract": "Narrative",
             "label": "numStories",
             "type": "t_uint256",
-            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:11"
+            "src": "../project:/contracts/Narrative.sol:8"
           },
           {
             "contract": "Narrative",
             "label": "stories",
-            "type": "t_mapping(t_uint256,t_struct(Story)446_storage)",
-            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:12"
+            "type": "t_mapping(t_uint256,t_struct(Story)483_storage)",
+            "src": "../project:/contracts/Narrative.sol:9"
           }
         ],
         "types": {
           "t_uint256": {
             "label": "uint256"
           },
-          "t_mapping(t_uint256,t_struct(Story)446_storage)": {
+          "t_mapping(t_uint256,t_struct(Story)483_storage)": {
             "label": "mapping(uint256 => struct Narrative.Story)"
           },
-          "t_struct(Story)446_storage": {
+          "t_struct(Story)483_storage": {
             "label": "struct Narrative.Story",
             "members": [
               {
