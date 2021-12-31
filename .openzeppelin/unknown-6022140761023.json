@@ -19,6 +19,26 @@
       "address": "0x31F3159477962f2DE37b0e97cCf29bEC61dC8d36",
       "txHash": "0x751f275bc064653d2c9c2e5a86fb5944ff8d7dd0eb42bebff416bbac3c31fbdb",
       "kind": "transparent"
+    },
+    {
+      "address": "0x7bEf674630ad2FB1851eAB28E9cA45F2c1A85dcc",
+      "txHash": "0x8c881ee8743cf3dbc10b2d451e0b3f7b58b02debd6b93c690f5dc8edc53a21f5",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x5e189Fdc58C343FAD9626F5a289747b37FFeA261",
+      "txHash": "0xe37908d425424534585405d79df51a8079594ef33588e8103885a61feae9a8dc",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xdA60949737DF4077a4E1Dd600fE79c989457B1Cd",
+      "txHash": "0xa7aaa4847e2e337341e0ed47eb67ba9bc2e7f49e763d2ece1290a345936f6505",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x95a98a1E40E05414948B24E8788c9447bCe01778",
+      "txHash": "0xdaa4a6e938e2a1fb1456f7882904f193b31ae7924313e0d64d7920cc52a5d078",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -242,6 +262,214 @@
             "label": "mapping(uint256 => struct Narrative.Story)"
           },
           "t_struct(Story)483_storage": {
+            "label": "struct Narrative.Story",
+            "members": [
+              {
+                "label": "title",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "body",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "wordCount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "wordContributors",
+                "type": "t_mapping(t_uint256,t_address)"
+              },
+              {
+                "label": "words",
+                "type": "t_mapping(t_uint256,t_string_storage)"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "e6755af5afcdbbee425e1a438f4458d4b7bea7926009b08bfacfab996a9d8095": {
+      "address": "0x1aC7b5d34403a5969CD67933a07D27dC0609fe31",
+      "txHash": "0x42860cd56b321d5c0da9b453df67fa20943d74db7a70c452c5964da1e5a6a76b",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
+          {
+            "contract": "Narrative",
+            "label": "numStories",
+            "type": "t_uint256",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:11"
+          },
+          {
+            "contract": "Narrative",
+            "label": "stories",
+            "type": "t_mapping(t_uint256,t_struct(Story)446_storage)",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:12"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_uint256,t_struct(Story)446_storage)": {
+            "label": "mapping(uint256 => struct Narrative.Story)"
+          },
+          "t_struct(Story)446_storage": {
+            "label": "struct Narrative.Story",
+            "members": [
+              {
+                "label": "title",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "body",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "wordCount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "wordContributors",
+                "type": "t_mapping(t_uint256,t_address)"
+              },
+              {
+                "label": "words",
+                "type": "t_mapping(t_uint256,t_string_storage)"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "ee9068ebef711c073e7ed4600a37ee5deafa3821cbb4acf12e8172447573e5c8": {
+      "address": "0x7BC186a97a3FbC98e89cfbd8c3B7FD06D38d156b",
+      "txHash": "0x72521f3f914b003129ac9b3ea67d6c354075577deee498204fe188164d6338b2",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
+          {
+            "contract": "Narrative",
+            "label": "numStories",
+            "type": "t_uint256",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:11"
+          },
+          {
+            "contract": "Narrative",
+            "label": "stories",
+            "type": "t_mapping(t_uint256,t_struct(Story)446_storage)",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:12"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_uint256,t_struct(Story)446_storage)": {
+            "label": "mapping(uint256 => struct Narrative.Story)"
+          },
+          "t_struct(Story)446_storage": {
             "label": "struct Narrative.Story",
             "members": [
               {

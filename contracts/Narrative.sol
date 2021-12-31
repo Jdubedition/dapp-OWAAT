@@ -68,10 +68,17 @@ contract Narrative is OwnableUpgradeable {
 
     function newStory(string memory word) public payable {
         validateWord(word);
-        require(
-            msg.value == 0.1 ether,
-            "You must provide 0.1 ether to create a new story"
-        );
+        if (bytes(word).length > 9) {
+            require(
+                msg.value == (bytes(word).length - 9) * 0.1 ether + 0.1 ether,
+                "You must provide 0.1 ether plus 0.1 ether for each character over 9 characters to create a new story"
+            );
+        } else {
+            require(
+                msg.value == 0.1 ether,
+                "You must provide 0.1 ether to create a new story"
+            );
+        }
         Story storage storyToUpdate = stories[numStories];
         storyToUpdate.title = word;
         numStories += 1;
@@ -86,11 +93,17 @@ contract Narrative is OwnableUpgradeable {
         payable
     {
         validateWord(word);
-        require(
-            msg.value == 0.02 ether,
-            "You must provide 0.02 ether to add a word"
-        );
-        validateWord(word);
+        if (bytes(word).length > 9) {
+            require(
+                msg.value == (bytes(word).length - 9) * 0.02 ether + 0.02 ether,
+                "You must provide 0.02 ether plus 0.02 ether for each character over 9 characters to add a word to the title"
+            );
+        } else {
+            require(
+                msg.value == 0.02 ether,
+                "You must provide 0.02 ether to add a word to the title"
+            );
+        }
         Story storage storyToUpdate = stories[storyID];
         storyToUpdate.title = string(
             abi.encodePacked(storyToUpdate.title, " ", word)
@@ -114,10 +127,17 @@ contract Narrative is OwnableUpgradeable {
 
     function addWordToBody(uint256 storyID, string memory word) public payable {
         validateWord(word);
-        require(
-            msg.value == 0.01 ether,
-            "You must provide 0.01 ether to add a word"
-        );
+        if (bytes(word).length > 9) {
+            require(
+                msg.value == (bytes(word).length - 9) * 0.01 ether + 0.01 ether,
+                "You must provide 0.01 ether plus 0.01 ether for each character over 9 characters to add a word to the story"
+            );
+        } else {
+            require(
+                msg.value == 0.01 ether,
+                "You must provide 0.01 ether to add a word to the story"
+            );
+        }
 
         Story storage storyToUpdate = stories[storyID];
 
@@ -135,7 +155,10 @@ contract Narrative is OwnableUpgradeable {
     }
 
     function validateWord(string memory word) private pure {
-        require(bytes(word).length > 0);
-        require(bytes(word).length <= 42);
+        require(bytes(word).length > 0, "Word must be at least 1 character");
+        require(bytes(word).length <= 42, "Word must be at most 42 characters");
+        for (uint256 i = 0; i < bytes(word).length; i++) {
+            require(bytes(word)[i] != 0x20, "Word must not contain spaces");
+        }
     }
 }

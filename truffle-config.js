@@ -28,7 +28,7 @@ module.exports = {
       network_id: 6022140761023,
       chain_id: 6022140761023,
     },
-    matic: {
+    maticMumbai: {
       // Register for Moralis Speedy Node ID at https://moralis.io/
       provider: () => new HDWalletProvider({
         privateKeys: [testAccountPrivateKey],

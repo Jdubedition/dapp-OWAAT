@@ -24,6 +24,11 @@
       "address": "0x618dD5bF85624d50039AabB1beD6111007cc7354",
       "txHash": "0x680923923649f57c133e50a174885eb697bd00c662aa0bab5c133033647f5036",
       "kind": "transparent"
+    },
+    {
+      "address": "0x70EEaDd37aEAacfD45104f97B8A10F091069BE5c",
+      "txHash": "0x37198daf20f0170d800b06f8af6d070af086b76e57efbd3138a26e70182b8ea5",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -194,6 +199,110 @@
     "0388c5f9380868b55b045f0a7d900033074498b41b24a9e71cbb4773c74e32c6": {
       "address": "0xC89C8D00c88b60554b532F8184801cf46b3AF2F7",
       "txHash": "0x76c6bd27a5cf3f43ae31e83d8bc485c4775613b479bb7a9b0ffc25ffed3de378",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
+          {
+            "contract": "Narrative",
+            "label": "numStories",
+            "type": "t_uint256",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:11"
+          },
+          {
+            "contract": "Narrative",
+            "label": "stories",
+            "type": "t_mapping(t_uint256,t_struct(Story)446_storage)",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:12"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_uint256,t_struct(Story)446_storage)": {
+            "label": "mapping(uint256 => struct Narrative.Story)"
+          },
+          "t_struct(Story)446_storage": {
+            "label": "struct Narrative.Story",
+            "members": [
+              {
+                "label": "title",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "body",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "wordCount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "wordContributors",
+                "type": "t_mapping(t_uint256,t_address)"
+              },
+              {
+                "label": "words",
+                "type": "t_mapping(t_uint256,t_string_storage)"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "ee9068ebef711c073e7ed4600a37ee5deafa3821cbb4acf12e8172447573e5c8": {
+      "address": "0xa9648128BDCB5E677EED54500c6fb4D344302F8d",
+      "txHash": "0xb10178afab63dbc3aff9a869cdd336c64968f1e03f8b0ff5531218eb299225ac",
       "layout": {
         "storage": [
           {

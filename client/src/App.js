@@ -96,6 +96,13 @@ class App extends Component {
     clearInterval(this.state.transactionHistoryIntervalID);
   }
 
+  calculateFullPrice = (price, word) => {
+    if (word.length > 9) {
+      return parseFloat((word.length - 9) * price + price).toFixed(2);
+    }
+    return parseFloat(price).toFixed(2);
+  }
+
   updateStoryToMatchBlockchain = async () => {
     const { narrativeContract, chosenStoryID } = this.state;
     const story = await narrativeContract.methods.getStory(chosenStoryID).call();
@@ -130,7 +137,7 @@ class App extends Component {
       // Submit transaction to add new word to body of story
       await narrativeContract.methods.addWordToBody(chosenStoryID, this.state.bodyTextFieldValue).send(
         {
-          value: web3.utils.toWei(addWordStoryPrice.toString(), 'ether'),
+          value: web3.utils.toWei(this.calculateFullPrice(addWordStoryPrice, this.state.bodyTextFieldValue).toString(), 'ether'),
           from: accounts[chosenAccount]
         }
       );
@@ -142,7 +149,7 @@ class App extends Component {
       // Submit transaction to add new word to title of story
       await narrativeContract.methods.addWordToTitle(chosenStoryID, this.state.titleTextFieldValue).send(
         {
-          value: web3.utils.toWei(addWordTitlePrice.toString(), 'ether'),
+          value: web3.utils.toWei(this.calculateFullPrice(addWordTitlePrice, this.state.titleTextFieldValue).toString(), 'ether'),
           from: accounts[chosenAccount]
         }
       );
@@ -203,6 +210,7 @@ class App extends Component {
       accounts,
       chosenAccount,
     } = this.state;
+    this.setState({ isProcessingTransaction: true });
     const stories = this.state.stories.map((s) => {
       if (storyAttributes.id !== undefined && s.id === storyAttributes.id) {
         return { id: s.id, title: storyAttributes.title };
@@ -213,14 +221,14 @@ class App extends Component {
     if (storyAttributes.id === undefined) {
       await narrativeContract.methods.newStory(storyAttributes.title).send(
         {
-          value: web3.utils.toWei(addStoryPrice.toString(), 'ether'),
+          value: web3.utils.toWei(this.calculateFullPrice(addStoryPrice, storyAttributes.title).toString(), 'ether'),
           from: accounts[chosenAccount]
         }
       );
       storyAttributes.id = stories.length.toString();
       stories.push(storyAttributes);
     }
-    this.setState({ storyAttributes, stories, chosenStoryID: storyAttributes.id }, this.updateStoryToMatchBlockchain);
+    this.setState({ storyAttributes, stories, chosenStoryID: storyAttributes.id, isProcessingTransaction: false }, this.updateStoryToMatchBlockchain);
   }
 
   render() {
@@ -244,6 +252,7 @@ class App extends Component {
                       selectOnFocus
                       clearOnBlur
                       handleHomeEndKeys
+                      disabled={this.state.isProcessingTransaction}
                       onChange={(_, newValue) => {
                         if (newValue === null) return;
                         if (typeof newValue === 'string') {
@@ -282,7 +291,7 @@ class App extends Component {
                         if (inputValue !== '' && !isExisting && inputValue.indexOf(' ') === -1) {
                           filtered.unshift({
                             inputValue,
-                            title: `Create New Story (${this.state.addStoryPrice} ether): "${inputValue}"`,
+                            title: `Create New Story (${this.calculateFullPrice(this.state.addStoryPrice, inputValue)} matic): "${inputValue}"`,
                           });
                         }
 
@@ -291,7 +300,7 @@ class App extends Component {
                     />
                   </Grid>
                   <Grid item xs={6} md={4}>
-                    <Tooltip title={this.state.addWordTitlePrice + " ether"}>
+                    <Tooltip title={this.calculateFullPrice(this.state.addWordTitlePrice, this.state.titleTextFieldValue) + " matic"}>
                       <TextField
                         sx={{ width: "100%" }}
                         id="add-word-title-textfield"
@@ -326,6 +335,7 @@ class App extends Component {
                         value={this.state.chosenAccount}
                         label="Select Account"
                         onChange={this.handleSelectChange}
+                        disabled={this.state.isProcessingTransaction}
                       >
                         {this.state.accounts.map((account, index) =>
                           <MenuItem value={index} key={account}>{account}</MenuItem>
@@ -334,7 +344,7 @@ class App extends Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6} md={5}>
-                    <Tooltip title={this.state.addWordStoryPrice + " ether"}>
+                    <Tooltip title={this.calculateFullPrice(this.state.addWordStoryPrice, this.state.bodyTextFieldValue) + " matic"}>
                       <TextField
                         sx={{ width: "100%" }}
                         id="add-word-body-textfield"
