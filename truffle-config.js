@@ -4,6 +4,7 @@ require('dotenv').config({ path: 'client/.env.local' });
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const testAccountPrivateKey = process.env.TEST_ACCOUNT_PRIVATE_KEY;
+const mainAccountPrivateKey = process.env.MAIN_ACCOUNT_PRIVATE_KEY;
 const moralisSpeedyNodeID = process.env.MORALIS_SPEEDY_NODE_ID;
 
 const moleChain = process.env.MOLE_CHAIN;
@@ -28,7 +29,7 @@ module.exports = {
       network_id: 6022140761023,
       chain_id: 6022140761023,
     },
-    maticMumbai: {
+    mumbai: {
       // Register for Moralis Speedy Node ID at https://moralis.io/
       provider: () => new HDWalletProvider({
         privateKeys: [testAccountPrivateKey],
@@ -38,6 +39,18 @@ module.exports = {
       confirmations: 2,
       timeoutBlocks: 200,
       skipDryRun: true
+    },
+    polygon: {
+      // Register for Moralis Speedy Node ID at https://moralis.io/
+      provider: () => new HDWalletProvider({
+        privateKeys: [mainAccountPrivateKey],
+        providerOrUrl: "https://speedy-nodes-nyc.moralis.io/" + moralisSpeedyNodeID + "/polygon/mainnet"
+      }),
+      network_id: 137,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+      // gasPrice: 601000000000,  // 601 gwei used to prioritize transactions to ensure deployment
     },
   },
   compilers: {

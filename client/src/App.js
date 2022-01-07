@@ -395,7 +395,7 @@ class App extends Component {
                       Error connecting to DApp!
                     </Typography>
                     <Typography variant="h8" component="div" align="center" gutterBottom>
-                      Make sure you have configured a wallet and you are connected to the right network.
+                      Make sure you have configured a cryptocurrency wallet and it is connected to the Polygon network.
                     </Typography>
                     <Typography variant="h8" component="div" align="center" gutterBottom>
                       Refresh the page to try again.

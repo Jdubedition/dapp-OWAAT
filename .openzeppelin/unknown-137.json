@@ -1,0 +1,120 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x95A3bB03Eaec37650c822707A004d693de6F1350",
+    "txHash": "0x7923935ada9948c6c4b6b2cc01f85318ce0f71184824c7d4f8baafff9e43dadb"
+  },
+  "proxies": [
+    {
+      "address": "0xc3225FDaf5370982C1c4F7bDD3130Cf374143980",
+      "txHash": "0xd48b225df4ff64d59ff7a9285db804d592b44a36e2f1d2597ab6122e8597574f",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "ee9068ebef711c073e7ed4600a37ee5deafa3821cbb4acf12e8172447573e5c8": {
+      "address": "0x6e7419e8f9780460F85Ef5d269c6e47199Ef1cBC",
+      "txHash": "0x29e4dbd26dbb6f3ad4c47245ca6c4d43be704c9fe61bad46843fcc36dff3e14b",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:37"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "../@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:42"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
+          },
+          {
+            "contract": "Narrative",
+            "label": "numStories",
+            "type": "t_uint256",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:11"
+          },
+          {
+            "contract": "Narrative",
+            "label": "stories",
+            "type": "t_mapping(t_uint256,t_struct(Story)446_storage)",
+            "src": "../@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol:12"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_uint256,t_struct(Story)446_storage)": {
+            "label": "mapping(uint256 => struct Narrative.Story)"
+          },
+          "t_struct(Story)446_storage": {
+            "label": "struct Narrative.Story",
+            "members": [
+              {
+                "label": "title",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "body",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "wordCount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "wordContributors",
+                "type": "t_mapping(t_uint256,t_address)"
+              },
+              {
+                "label": "words",
+                "type": "t_mapping(t_uint256,t_string_storage)"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    }
+  }
+}
